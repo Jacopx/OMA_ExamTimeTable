@@ -53,7 +53,7 @@ where INT1 is the exam ID and INT2 is the ID of the assigned time-slot (IDs must
 * **Stefano Munna** - [///](https://github.com/)
 * **Jacopo Nasi** - [Jacopx](https://github.com/Jacopx)
 * **Andrea Santu** - [androsanta](https://github.com/androsanta)
-* **Marco Torlaschi** - [///](https://github.com/)
+* **Marco Torlaschi** - [Torla](https://github.com/Torla)
 
 ## License
 
