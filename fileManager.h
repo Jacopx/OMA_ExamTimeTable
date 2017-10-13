@@ -4,9 +4,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <stdio.h>
-#include "fileManager.h
 
-int main() {
-    printf("Hello, World!\n");
-    return 0;
-}
+#ifndef OMA_EXAMTIMETABLE_FILEMANAGER_H
+#define OMA_EXAMTIMETABLE_FILEMANAGER_H
+
+FILE* file_Open(char *filename,char *mode);
+int read_Exm(FILE *instanceExm, int *dataStructure);
+int read_Slo(FILE *instanceSlo, int *tMax);
+int read_Stu(FILE *instanceStu, int *dataStructure, int digits);
+
+#endif //OMA_EXAMTIMETABLE_FILEMANAGER_H
