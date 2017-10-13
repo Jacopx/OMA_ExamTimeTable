@@ -1,6 +1,5 @@
 # CLion JetBrains
 .idea
-CMakeLists.txt
 cmake-build-debug
 
 # Prerequisites
