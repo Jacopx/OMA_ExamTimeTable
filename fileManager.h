@@ -12,5 +12,6 @@ FILE* file_Open(char *filename,char *mode);
 int read_Exm(FILE *instanceExm, int *dataStructure);
 int read_Slo(FILE *instanceSlo, int *tMax);
 int read_Stu(FILE *instanceStu, int *dataStructure, int digits);
+int print_Sol(char *instanceName, int *result);
 
 #endif //OMA_EXAMTIMETABLE_FILEMANAGER_H
