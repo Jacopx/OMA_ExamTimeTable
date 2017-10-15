@@ -4,6 +4,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include <stdio.h>
 #include "fileManager.h"
+
 /*
  * Function that opens the filename pointed to, by filename using reading mode
  *  PARAMETERS: 
@@ -30,7 +31,7 @@ FILE* file_Open(char *filename,char *mode)
  *        OPTION 1: Based on instance examples, exams have sequential ID (from 0 to...) so this data could be stored
  *                  in a simnple array (sPe_array: Student per exam) where indices rappresent the exam ID, and i-element
  *                  the #students enrolled
- *        OPTION 2: An array sPe_array of structures. Each structures is defined by two attributes: exam ID and the 
+ *        OPTION 2: An array sPe_array of structures. Each structure is defined by two attributes: exam ID and the 
  *                  # students enrlolled
  *        OPTION 3: A data structure that brings benefits to performances based on developed algorithm
  */ 
@@ -58,7 +59,7 @@ int read_Exm(FILE *instanceExm, int *dataStructure)
         return 0;
     }  
 }
-
+   
 
 /*
  * Function that reads formatted input by .slo file that defines the lenght of the examination period.
@@ -98,7 +99,7 @@ int read_Slo(FILE *instanceSlo, int *tMax)
  *    > This function returns 1 if reading is carry out. Otherwise, 0 is returned.
  */
 /* TO-DO: Define data structures where data will be stored
- *        OPTION 1: An array ePs_array of structures. Each structures is defined by two attributes: student ID and the 
+ *        OPTION 1: An array ePs_array of structures. Each structure is defined by two attributes: student ID and the 
  *                  array of eaxam IDs in which the student is enrlolled
  *        OPTION 2: A data structure that brings benefits to performances based on developed algorithm
  */ 
@@ -126,4 +127,33 @@ int read_Stu(FILE *instanceStu, int *dataStructure, int digits)
     {
         return 0;
     }  
+}
+
+
+/*
+ * Function that sends formatted output to result stream.
+ *  PARAMETERS: 
+ *    > filename: C string containing the name of instance to be opened
+ *    > result: data structures in which results will be stored. 
+ *  OUTPUT: 
+ *    > This function returns 1 if printing is carry out. Otherwise, 0 is returned.
+ */
+/* TO-DO: Define data structures where result will be stored
+ *        OPTION 1: Based on instance examples, exams have sequential ID (from 0 to...) so results could be stored
+ *                  in a simnple array (slotPe_array: Slot per exam) where indices rappresent the exam ID, and i-element
+ *                  the slot number assigned to that exam
+ *        OPTION 2: An array slotPe_array of structures. Each structure is defined by two attributes: exam ID and the 
+ *                  slot number assigned to it
+ *        OPTION 3: A data structure that brings benefits to performances based on developed algorithm
+ */
+
+int print_Sol(char *instanceName, int *result)
+{
+    /* TO-DO: Define group number YY */ 
+    strcat(instanceName,"_OMAMZ_groupYY.sol");
+    if(f=fopen(instanceName,"w"))
+    {
+        /*TO-DO: print results*/
+    }
+
 }
