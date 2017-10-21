@@ -3,6 +3,7 @@
  *                      Repository available on https://github.com/Jacopx/OMA_ExamTimeTable                          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include <stdio.h>
+#include <string.h>
 #include "fileManager.h"
 
 /*
@@ -149,7 +150,9 @@ int read_Stu(FILE *instanceStu, int *dataStructure, int digits)
 
 int print_Sol(char *instanceName, int *result)
 {
-    /* TO-DO: Define group number YY */ 
+    FILE* f;
+
+    /* TO-DO: Define group number YY */
     strcat(instanceName,"_OMAMZ_groupYY.sol");
     if(f=fopen(instanceName,"w"))
     {
