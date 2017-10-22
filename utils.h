@@ -3,18 +3,11 @@
  *                      Repository available on https://github.com/Jacopx/OMA_ExamTimeTable                          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "Edge.h"
+#include "ADTgraph.h"
 
-#ifndef OMA_EXAMTIMETABLE_ADTGRAPH_H
-#define OMA_EXAMTIMETABLE_ADTGRAPH_H
+#ifndef OMA_EXAMTIMETABLE_UTILS_H
+#define OMA_EXAMTIMETABLE_UTILS_H
 
-typedef struct graph *Graph;
+int benchmarkSolution (Graph g, int *sol, int S);
 
-Graph GraphInit (int V);
-void GraphInsertE (Graph g, edge e);
-void GraphRemoveE (Graph g, edge e);
-int GraphGetV (Graph g);
-int **GraphGetAdjMatrix (Graph g);
-void GraphFree (Graph g);
-
-#endif //OMA_EXAMTIMETABLE_ADTGRAPH_H
+#endif //OMA_EXAMTIMETABLE_UTILS_H

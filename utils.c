@@ -3,18 +3,19 @@
  *                      Repository available on https://github.com/Jacopx/OMA_ExamTimeTable                          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "Edge.h"
+#include <math.h>
+#include "utils.h"
+#include "ADTgraph.h"
 
-#ifndef OMA_EXAMTIMETABLE_ADTGRAPH_H
-#define OMA_EXAMTIMETABLE_ADTGRAPH_H
+int benchmarkSolution (Graph g, int *sol, int S) {
+    int i, j, d, penalty, V = GraphGetV(g);
+    int **adjM = GraphGetAdjMatrix(g);
 
-typedef struct graph *Graph;
+    for (i = 0, penalty = 0; i < V - 1; ++i)
+        for (j = i + 1; j < V; ++j) {
+            //@TODO calculate slot distance (d) between exams based on structure of sol
+            penalty += ( pow(2, 5 - d) * adjM[i][j]) / S;
+        }
 
-Graph GraphInit (int V);
-void GraphInsertE (Graph g, edge e);
-void GraphRemoveE (Graph g, edge e);
-int GraphGetV (Graph g);
-int **GraphGetAdjMatrix (Graph g);
-void GraphFree (Graph g);
-
-#endif //OMA_EXAMTIMETABLE_ADTGRAPH_H
+    return penalty;
+}

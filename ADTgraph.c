@@ -11,6 +11,7 @@ struct graph {
     int V, E; // V number of vertices, E number of edges
     int **adj; // adjacency matrix
     // @TODO evaluate if add a structure to remember exam id or not
+    // @TODO add an adjacency list to handle very big number of exams?
 };
 
 int **MatrixInit (int rc, int initVal) {
@@ -54,6 +55,14 @@ void GraphRemoveE (Graph g, edge e) {
     if (g->adj[e.v][e.w] != 0) g->E--;
     g->adj[e.v][e.w] = 0;
     g->adj[e.w][e.v] = 0;
+}
+
+int GraphGetV (Graph g) {
+    return g->V;
+}
+
+int **GraphGetAdjMatrix (Graph g) {
+    return g->adj;
 }
 
 void GraphFree (Graph g) {
