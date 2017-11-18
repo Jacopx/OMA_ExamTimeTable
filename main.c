@@ -12,8 +12,6 @@
 #include "utils.h"
 
 int main() {
-    int i;
-    FILE *fp;
     dataStructure *solution = malloc(sizeof(dataStructure));
 
     read_Slo(fopen("instance01.slo", "r"), &solution->timeSlots);
