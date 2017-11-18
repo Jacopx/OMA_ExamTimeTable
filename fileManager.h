@@ -4,14 +4,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <stdio.h>
+#include "utils.h"
 
 #ifndef OMA_EXAMTIMETABLE_FILEMANAGER_H
 #define OMA_EXAMTIMETABLE_FILEMANAGER_H
 
 FILE* file_Open(char *filename,char *mode);
-int read_Exm(FILE *instanceExm, int *dataStructure);
+void read_Exm(char *filename, dataStructure *solution);
 int read_Slo(FILE *instanceSlo, int *tMax);
-int read_Stu(FILE *instanceStu, int *dataStructure, int digits);
-int print_Sol(char *instanceName, int *result);
+int read_Stu(FILE *instanceStu, dataStructure *solution);
+int print_Sol(char *instanceName, dataStructure *solution);
 
 #endif //OMA_EXAMTIMETABLE_FILEMANAGER_H

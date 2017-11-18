@@ -10,8 +10,6 @@
 struct graph {
     int V, E; // V number of vertices, E number of edges
     int **adj; // adjacency matrix
-    // @TODO evaluate if add a structure to remember exam id or not
-    // @TODO add an adjacency list to handle very big number of exams?
 };
 
 int **MatrixInit (int rc, int initVal) {
@@ -40,15 +38,12 @@ Graph GraphInit (int V) {
 void GraphInsertE (Graph g, edge e) {
     int prev = g->adj[e.v][e.w];
 
-    if (e.v == e.w) {
-        printf("Warning, edge between same vertex");
-        exit(1);
-    }
+    if (e.v == e.w) printf("Warning, edge between same vertex");
     if (prev == 0) g->E++;
 
     // it's useful to increment the previous value for the Conflict graph
-    g->adj[e.v][e.w] = prev + 1;
-    g->adj[e.w][e.v] = prev + 1;
+    g->adj[e.v][e.w] = prev + e.wt;
+    g->adj[e.w][e.v] = prev + e.wt;
 }
 
 void GraphRemoveE (Graph g, edge e) {
@@ -59,6 +54,10 @@ void GraphRemoveE (Graph g, edge e) {
 
 int GraphGetV (Graph g) {
     return g->V;
+}
+
+int GraphGetE (Graph g) {
+    return g->E;
 }
 
 int **GraphGetAdjMatrix (Graph g) {
