@@ -14,5 +14,7 @@ void read_Exm(char *filename, dataStructure *solution);
 int read_Slo(FILE *instanceSlo, int *tMax);
 int read_Stu(FILE *instanceStu, dataStructure *solution);
 int print_Sol(char *instanceName, dataStructure *solution);
+void sortBasedOnEdges (dataStructure *solution);
+
 
 #endif //OMA_EXAMTIMETABLE_FILEMANAGER_H

@@ -70,7 +70,7 @@ char** getOrderedData (int n, FILE *fp) {
     orderedExams **s = malloc(n * sizeof(orderedExams*));
     ret = malloc(n * sizeof(char*));
     for (i = 0; i < n; ++i) s[i] = malloc(sizeof(orderedExams));
-    for (i = 0; i < n; ++i) ret[i] = malloc(sizeof(10 * sizeof(char)));
+    for (i = 0; i < n; ++i) ret[i] = malloc(10 * sizeof(char));
 
     i = 0;
     while(fscanf(fp, "%s%s", str1, str2) != EOF) {
@@ -88,6 +88,47 @@ char** getOrderedData (int n, FILE *fp) {
     }
     free(s);
     return ret;
+}
+
+void sortBasedOnEdges (dataStructure *solution) {
+    int i, edges, j;
+    char **ret;
+    orderedExams **e;
+    int **adjM = GraphGetAdjMatrix(solution->g);
+
+    ret = malloc(solution->E * sizeof(char*));
+    for (i = 0; i < solution->E; ++i) ret[i] = malloc(10 * sizeof(char));
+
+    e = malloc(solution->E * sizeof(orderedExams*));
+    for (i = 0; i < solution->E; ++i) e[i] = malloc(sizeof(orderedExams));
+
+    for (i = 0; i < solution->E; ++i) {
+        strcpy(e[i]->Ids, STdisplay(solution->tab, i));
+        for (j = 0, edges = 0; j < solution->E; ++j) {
+            if (adjM[i][j] > 0) edges++;
+        }
+        e[i]->num = edges;
+    }
+
+    qsort(e, (unsigned int)solution->E, sizeof(orderedExams*), cmpFunction);
+
+    for (i = 0; i < solution->E; ++i) {
+        strcpy(ret[i], e[i]->Ids);
+        free(e[i]);
+    }
+    free(e);
+
+    STfree(solution->tab);
+    GraphFree(solution->g);
+
+    solution->tab = STinit(solution->E);
+    solution->g = GraphInit(solution->E);
+
+    for (i = 0; i < solution->E; ++i) {
+        STinsert(solution->tab, ret[i]);
+        free(ret[i]);
+    }
+    free(ret);
 }
 
 void read_Exm(char *filename, dataStructure *solution)
@@ -246,7 +287,11 @@ int print_Sol(char *instanceName, dataStructure *solution)
         /*TO-DO: print results*/
 
         fprintf(f, "%s %d", e[0]->Ids, e[0]->num);
-        for (i = 1; i < solution->E; ++i) fprintf(f, "\n%s %d", e[i]->Ids, e[i]->num);
+        printf("--%s %d--", e[0]->Ids, e[0]->num);
+        for (i = 1; i < solution->E; ++i) {
+            fprintf(f, "\n%s %d", e[i]->Ids, e[i]->num);
+            printf("\n%s %d", e[i]->Ids, e[i]->num);
+        }
         fclose(f);
     }
 
