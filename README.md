@@ -2,7 +2,7 @@
 Repository for OMA assignment 2017-2018 for the degree course in **Computer Engineer** of *Polytechnic of Turin*.
 
 ## Assignment
-Let us consider a set **E** E of exams, to be scheduled during an examination period at the end of the semester, and a set **S** S of students. Each student is enrolled in a subset of exams, at least one. The examination period is divided in t_max ordered time-slots.
+Let us consider a set **E** of exams, to be scheduled during an examination period at the end of the semester, and a set **S** of students. Each student is enrolled in a subset of exams, at least one. The examination period is divided in t_max ordered time-slots.
 
 By law, conﬂicting exams (i.e. having enrolled students in common) cannot take place during the same time-slot. Moreover, to incentive universities at creating timetables more sustainable for the students, the Ministry of Education assigns a penalty for each couple of conﬂicting exams scheduled up to 5 time-slots apart. More precisely, given the number **N_(e,e')** of students enrolled in both conﬂicting exams e and e', which are scheduled i time-slots apart, the penalty is calculated as
 **2^(5-i)*N_(e,e)/abs(S)**.
@@ -14,16 +14,16 @@ The Examination Timetabling Problem (ETP) aims at assigning each exam to a speci
 The objective is to minimize the total penalty resulting from the created timetable.
 
 **Assumptions**:
-* During each time-slot there is always a number of available rooms greater than the total number of exams; 
+* During each time-slot there is always a number of available rooms greater than the total number of exams;
 * Rooms have enough capacity with respect to the number of enrolled students.
 
 ## Required tasks
 * Provide a Linear Programming formulation for the ETP (deadline 1).
 * Propose a solution approach for the ETP by exploiting one (or more) heuristic and meta-heuristic algorithms presented during the course.
-* Develop/implement such a solution algorithm through a know programming language (preferably C/C++ or Java). 
+* Develop/implement such a solution algorithm through a know programming language (preferably C/C++ or Java).
 * Solve the benchmark instances through the implemented algorithm.
 * Deliver the project code, the results, and a report of the work (deadline 2)
-* Present the solution method adopted and the results obtained (*to be deﬁned within Jan 9–19, 2018, during the last lessons of the course*) 
+* Present the solution method adopted and the results obtained (*to be deﬁned within Jan 9–19, 2018, during the last lessons of the course*)
 
 ## Deadlines
 * Deadline 1 (problem formulation): **26/11/2017**, 23:59.
@@ -34,13 +34,13 @@ Using the provided software by professor, is possible to check the solution usin
 ```
 ETPchecker.exe instance name -check solution file
 ```
-everything is able and it must work on Windows. 
+everything is able and it must work on Windows.
 
 The format of the solution must be like this:
 ```
 INT1 INT2
 ```
-where INT1 is the exam ID and INT2 is the ID of the assigned time-slot (IDs must correspond to those read in the instance ﬁles). 
+where INT1 is the exam ID and INT2 is the ID of the assigned time-slot (IDs must correspond to those read in the instance ﬁles).
 
 **The solution MUST BE FEASIBLE!**
 
