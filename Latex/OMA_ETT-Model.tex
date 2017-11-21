@@ -32,7 +32,7 @@
 This document contains the mathematical model designed for the assignment of Optimization Methods and Algorithms (2017/2018) for the GROUP 3 of the second part of the course [MA-ZZ].
 
 \subsection{Variables}
-We have defined two main boolean variables. The first is related to the exam in time slots:
+We have defined two main boolean variables ($x,y \in \{0,1\} $). The first is related to the exam in time slots:
 \begin{equation}
   \begin{gathered}
     x_{e,t} = \begin{cases} 1 \rightarrow $ \textit{If the exam \textbf{e} is assigned to timeslot \textbf{t}}$ \\ 0 \rightarrow Otherwise \end{cases}
@@ -54,9 +54,9 @@ We have also defined the number of students enrolled in both conflicting exams e
 \end{equation}
 There are also other standard variables defined by the assignement:
 \begin{itemize}
-  \item S: Number of student.
-  \item $t_{max}$: Number of time slots.
-  \item e: Number of exam.
+  \item S: Number of student $\rightarrow S \in \mathbb{N}$
+  \item $t_{max}$: Number of time slots $\rightarrow t_{max} \in \mathbb{N}$
+  \item e: Number of exam $\rightarrow e \in \mathbb{N}$
 \end{itemize}
 
 \subsection{Objective Function}
@@ -71,7 +71,8 @@ The pourpose of the model is to MINIMIZE the following expression:
 the problem of this equation is that is not a linear function (due to the product of two decision variables). We need linearize it:
 \begin{equation}
   \begin{gathered}
-    K_{e,t,e',t'} = x_{e,t} \cdot x_{e',t'}
+    K_{e,t,e',t'} = x_{e,t} \cdot x_{e',t'}\\
+    K_{e,t,e',t'} \in \{0,1\}
     \label{eq:sec}
   \end{gathered}
 \end{equation}
