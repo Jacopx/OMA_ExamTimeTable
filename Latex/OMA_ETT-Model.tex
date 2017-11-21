@@ -28,11 +28,11 @@
 \newpage
 
 % Model pages
-\section{Matematical Model}
+\section{Mathematical Model}
 This document contains the mathematical model designed for the assignment of Optimization Methods and Algorithms (2017/2018) for the GROUP 3 of the second part of the course [MA-ZZ].
 
 \subsection{Variables}
-We have starting defining 2 main boolean variables. The first is related to the exam in time slots:
+We have defined two main boolean variables. The first is related to the exam in time slots:
 \begin{equation}
   \begin{gathered}
     x_{e,t} = \begin{cases} 1 \rightarrow $ \textit{If the exam \textbf{e} is assigned to timeslot \textbf{t}}$ \\ 0 \rightarrow Otherwise \end{cases}
@@ -49,29 +49,36 @@ We have also defined the number of students enrolled in both conflicting exams e
   \begin{gathered}
     n_{e,e'} = \sum_{s = 1}^{S} y_{s,e} \cdot y_{s,e'}\\
     \forall e, e' \in \{1,...,E\} \wedge (e \neq e')\\
-    s\in\{1,...,S\}
+    s\in\{1,...,S\}\\
   \end{gathered}
 \end{equation}
+There are also other standard variables defined by the assignement:
+\begin{itemize}
+  \item S: Number of student.
+  \item $t_{max}$: Number of time slots.
+  \item e: Number of exam.
+\end{itemize}
 
 \subsection{Objective Function}
-Out model is designed to MINIMIZE the following expression:
+The pourpose of the model is to MINIMIZE the following expression:
 \begin{equation}
   \begin{gathered}
-    \sum_{e=1}^{E-1}\sum_{e'=e+1}^{E}\sum_{t=1}^{t_{max}-5}\sum_{t'=t}^{t+5} (\frac{2^{5-i}}{|S|} \cdot n_{e,e'} \cdot x_{e,t} \cdot x_{e',t'})
+    \sum_{e=1}^{E-1}\sum_{e'=e+1}^{E}\sum_{t=1}^{t_{max}-5}\sum_{t'=t}^{t+5} (\frac{2^{5-i}}{|S|} \cdot n_{e,e'} \cdot x_{e,t} \cdot x_{e',t'})\\
+    i = t'-t
     \label{eq:fir}
   \end{gathered}
 \end{equation}
-the only problem of this equation is that is not a linear function (due to the product of two decision variables). We nedd to linearize it:
+the problem of this equation is that is not a linear function (due to the product of two decision variables). We need linearize it:
 \begin{equation}
   \begin{gathered}
     K_{e,t,e',t'} = x_{e,t} \cdot x_{e',t'}
     \label{eq:sec}
   \end{gathered}
 \end{equation}
-this is not enough, we need to define also other constratins in the equation number \ref{eq:linearize}.
+this is not enough, we also need to define other constraints for forcing the linearization. They can be found in the block of equation \ref{eq:linearize}.
 
-\subsection{Constrains}
-There are two main constratins that need to be defined for generating feasible solution, the first is the one related to the possibility to define only once an exam during the examination period:
+\subsection{Constraints}
+There are two main constraints to define to generating feasible solution, the first is the one related to the possibility to schedule only once an exam during the period:
 \begin{equation}
   \begin{gathered}
      \sum_{t=1}^{t_{max}} x_{e,t} = 1\\
@@ -86,7 +93,7 @@ The second one is to avoid that two conflict exams can be helded in the same tim
      w_{e,e'} \in \{0,1\}
   \end{gathered}
 \end{equation}
-The following constratins are defined due to \textbf{linearize the objective function}:
+The following constraints are defined due to \textbf{linearize the objective function}:
 \begin{equation}
   \begin{gathered}
      K_{e,t,e',t'} \leq x_{e,t}\\

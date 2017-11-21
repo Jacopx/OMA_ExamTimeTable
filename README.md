@@ -17,6 +17,9 @@ The objective is to minimize the total penalty resulting from the created timeta
 * During each time-slot there is always a number of available rooms greater than the total number of exams;
 * Rooms have enough capacity with respect to the number of enrolled students.
 
+## Mathematical model
+The model is described in a `OMA_ETT-Model.pdf` document stored in the Latex folder of the project.
+
 ## Required tasks
 * Provide a Linear Programming formulation for the ETP (deadline 1).
 * Propose a solution approach for the ETP by exploiting one (or more) heuristic and meta-heuristic algorithms presented during the course.
