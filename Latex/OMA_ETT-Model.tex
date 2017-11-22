@@ -95,7 +95,7 @@ The second one is to prevent two conflicting exams being scheduled in the same t
      w_{e,e'} \in \{0,1\}
   \end{gathered}
 \end{equation}
-The two inequalities ensure that \textit{K_{e,t,e',t'}} will be zero if \textit{n_{e,e'}} is bigger than zero (and consequently exams must be scheduled in different time slot).
+The two inequalities ensure that \textit{$K_{e,t,e',t'}$} will be zero if \textit{$n_{e,e'}$} is bigger than zero (and consequently exams must be scheduled in different time slot).
 The following constraints are defined, as already said, for \textbf{linearization of the objective function}:
 \begin{equation}
   \begin{gathered}
@@ -105,7 +105,7 @@ The following constraints are defined, as already said, for \textbf{linearizatio
      \label{eq:linearize}
   \end{gathered}
 \end{equation}
-The first two inequalities ensure that \textit{K_{e,t,e',t'}} will be zero if either \textit{x_{e,t}} or \textit{x_{e',t'}} are zero. The last inequality will make sure that \textit{K_{e,t,e',t'}} will take value 1 if both binary variables are set to 1.
+The first two inequalities ensure that \textit{$K_{e,t,e',t'}$} will be zero if either \textit{$x_{e,t}$} or \textit{$x_{e',t'}$} are zero. The last inequality will make sure that \textit{$K_{e,t,e',t'}$} will take value 1 if both binary variables are set to 1.
 
 \subsection{Final Objective Function}
 The final version of the objective function is obtained merging the equation \ref{eq:fir} and \ref{eq:sec} with the following result:
