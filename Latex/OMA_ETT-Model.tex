@@ -52,11 +52,11 @@ We have also defined the number of students enrolled in both conflicting exams e
     s\in\{1,...,S\}\\
   \end{gathered}
 \end{equation}
-There are also other standard variables defined by the assignement:
+Parameters defined by the assignement:
 \begin{itemize}
-  \item S: Number of student $\rightarrow S \in \mathbb{N}$
+  \item S: Number of student$\rightarrow S \in \mathbb{N}$
   \item $t_{max}$: Number of time slots $\rightarrow t_{max} \in \mathbb{N}$
-  \item e: Number of exam $\rightarrow e \in \mathbb{N}$
+  \item E: Number of exam $\rightarrow e \in \mathbb{N}$
 \end{itemize}
 
 \subsection{Objective Function}
@@ -68,7 +68,7 @@ The pourpose of the model is to MINIMIZE the following expression:
     \label{eq:fir}
   \end{gathered}
 \end{equation}
-the problem of this equation is that is not a linear function (due to the product of two decision variables). We need linearize it:
+Since this equation is not a linear function (due to the product of two decision variables), we need to introduce a new variable to linearize it:
 \begin{equation}
   \begin{gathered}
     K_{e,t,e',t'} = x_{e,t} \cdot x_{e',t'}\\
@@ -76,17 +76,18 @@ the problem of this equation is that is not a linear function (due to the produc
     \label{eq:sec}
   \end{gathered}
 \end{equation}
-this is not enough, we also need to define other constraints for forcing the linearization. They can be found in the block of equation \ref{eq:linearize}.
+and to define some constraints(\ref{eq:linearize}) that guarantee the correct transition from the non-linear function to its linearized form.
 
 \subsection{Constraints}
-There are two main constraints to define to generating feasible solution, the first is the one related to the possibility to schedule only once an exam during the period:
+Two  are the main constraints that must be defined to guarantee the feasibility of the solution. 
+The first is the one related to the possibility to schedule an exam only once during the examination period:
 \begin{equation}
   \begin{gathered}
      \sum_{t=1}^{t_{max}} x_{e,t} = 1\\
      \forall e, e' \in \{1,...,E\}
   \end{gathered}
 \end{equation}
-The second one is to avoid that two conflict exams can be helded in the same time slots:
+The second one is to prevent two conflicting exams being scheduled in the same time slots:
 \begin{equation}
   \begin{gathered}
      n_{e,e'} \leq |S| \cdot w_{e,e'}\\
@@ -94,7 +95,8 @@ The second one is to avoid that two conflict exams can be helded in the same tim
      w_{e,e'} \in \{0,1\}
   \end{gathered}
 \end{equation}
-The following constraints are defined due to \textbf{linearize the objective function}:
+The two inequalities ensure that \textit{K_{e,t,e',t'}} will be zero if \textit{n_{e,e'}} is bigger than zero (and consequently exams must be scheduled in different time slot). 
+The following constraints are defined, as already said, for \textbf{linearization of the objective function}:
 \begin{equation}
   \begin{gathered}
      K_{e,t,e',t'} \leq x_{e,t}\\
@@ -103,12 +105,13 @@ The following constraints are defined due to \textbf{linearize the objective fun
      \label{eq:linearize}
   \end{gathered}
 \end{equation}
+The first two inequalities ensure that \textit{K_{e,t,e',t'}} will be zero if either \textit{x_{e,t}} or \textit{x_{e',t'}} are zero. The last inequality will make sure that \textit{K_{e,t,e',t'}} will take value 1 if both binary variables are set to 1.
 
 \subsection{Final Objective Function}
 The final version of the objective function is obtained merging the equation \ref{eq:fir} and \ref{eq:sec} with the following result:
 \begin{equation}
   \begin{gathered}
-    \sum_{e=1}^{E-1}\sum_{e'=e+1}^{E}\sum_{t=1}^{t_{max}-5}\sum_{t'=t}^{t+5} (\frac{2^{5-i}}{|S|} \cdot n_{e,e'} \cdot K_{e,t,e',t'})
+    min\sum_{e=1}^{E-1}\sum_{e'=e+1}^{E}\sum_{t=1}^{t_{max}-5}\sum_{t'=t}^{t+5} (\frac{2^{5-i}}{|S|} \cdot n_{e,e'} \cdot K_{e,t,e',t'})
     \label{eq:final}
   \end{gathered}
 \end{equation}
