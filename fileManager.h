@@ -11,9 +11,9 @@
 
 FILE* file_Open(char *filename,char *mode);
 void read_Exm(char *filename, dataStructure *solution);
-int read_Slo(FILE *instanceSlo, int *tMax);
-int read_Stu(FILE *instanceStu, dataStructure *solution);
-int print_Sol(char *instanceName, dataStructure *solution);
+int read_Slo(char *filename, dataStructure *solution);
+int read_Stu(char *filename, dataStructure *solution);
+int print_Sol(char *filename, dataStructure *solution);
 void sortBasedOnEdges (dataStructure *solution);
 
 

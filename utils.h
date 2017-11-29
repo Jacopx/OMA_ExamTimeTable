@@ -14,9 +14,11 @@ typedef  struct {
     int E, timeSlots;
     Graph g;
     st tab;
+    int timeLimit;
+    int S;
 } dataStructure;
 
-int benchmarkSolution (Graph g, int *sol, int S);
+float benchmarkSolution (dataStructure *solution);
 void findFeasibleSolution (dataStructure *solution);
 
 #endif //OMA_EXAMTIMETABLE_UTILS_H

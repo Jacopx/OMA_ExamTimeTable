@@ -8,8 +8,8 @@
 #include <stdio.h>
 #include "utils.h"
 
-#define ITER 195 // 7
-#define TABU_LIST_SIZE 200 // 14
+#define ITER 490 // 7
+#define TABU_LIST_SIZE 500 // 14
 
 
 typedef struct {        // define the conflict between 2 exams
@@ -35,20 +35,22 @@ typedef struct {
     int **alternatives;                 // array of alternative solutions (obtained swapping a slot of 1 exams at time)
 } ConflictStructure;
 
-int benchmarkSolution (Graph g, int *sol, int S) {
-    int i, j, d, penalty, V = GraphGetV(g);
-    int **adjM = GraphGetAdjMatrix(g);
+float benchmarkSolution (dataStructure * solution) {
+    int i, j, V = GraphGetV(solution->g), d;
+    int **adjM = GraphGetAdjMatrix(solution->g);
+    float penalty;
 
     for (i = 0, penalty = 0; i < V - 1; ++i)
         for (j = i + 1; j < V; ++j) {
-            //@TODO calculate slot distance (d) between exams based on structure of sol
-            penalty += ( pow(2, 5 - d) * adjM[i][j]) / S;
+            d = abs(solution->exams[i] - solution->exams[j]);
+            if (d <= 5 && adjM[i][j] != 0)
+                penalty += (float)pow(2, 5 - d) * (float)adjM[i][j];;
         }
 
-    return penalty;
+    return penalty / solution->S;
 }
 
-void findConflict (ConflictStructure *cf, int *tempSol, dataStructure *sol) {
+void findConflict (ConflictStructure *cf, const int *tempSol, dataStructure *sol) {
     int **adjM = GraphGetAdjMatrix(sol->g), i, j;
 
     for (i = 0; i < GraphGetV(sol->g) - 1; ++i)
@@ -62,12 +64,12 @@ void findConflict (ConflictStructure *cf, int *tempSol, dataStructure *sol) {
         }
 }
 
-void copyArray (int *s1, int *s2, int l) {
+void copyArray (int *s1, const int *s2, int l) {
     int i;
     for (i = 0; i < l; ++i) s1[i] = s2[i];
 }
 
-int isTabu (TabuList *TL, int *tempSol, int *alternative, dataStructure *solution) {
+int isTabu (TabuList *TL, const int *tempSol, const int *alternative, dataStructure *solution) {
     int i, e1 = -1, e2 = -1, exam = -1;
 
     for (i = 0; i < solution->E; ++i) {
@@ -80,10 +82,8 @@ int isTabu (TabuList *TL, int *tempSol, int *alternative, dataStructure *solutio
 
     if (e1 != -1 && e2 != -1 && exam != -1)
         for (i = 0; i < TL->nMoves; ++i) {
-            if (TL->list[i]->e1 == e1 && TL->list[i]->e2 == e2 && TL->list[i]->iteration > 0 && TL->list[i]->exam == exam) {
-                // printf("tabu between: %d, %d for exam %d\n", e1, e2, exam);
+            if (TL->list[i]->e1 == e1 && TL->list[i]->e2 == e2 && TL->list[i]->iteration > 0 && TL->list[i]->exam == exam)
                 return 1;
-            }
         }
 
     return 0;
@@ -102,10 +102,7 @@ int calculateConflict (ConflictStructure *cf, dataStructure *sol, int *tempSol, 
                 }
             }
     }
-    /*printf("---tabulist\n");
-    for (i = 0; i < TL->nMoves; ++i) {
-        printf("exam: %d, e1: %d, e2: %d, iter: %d\n", TL->list[i]->exam, TL->list[i]->e1, TL->list[i]->e2, TL->list[i]->iteration);
-    } printf("----\n");*/
+
     // find min conflict not considering tabu
     for (k = 0, idxWithTabu = 0; k < cf->nAltern; ++k) {
         if (cf->numConflictsForAlternatives[k] < cf->numConflictsForAlternatives[idxWithTabu]) {
@@ -122,10 +119,10 @@ int calculateConflict (ConflictStructure *cf, dataStructure *sol, int *tempSol, 
     }
 
     if (cf->numConflictsForAlternatives[idxWithTabu] < cf->numConflictsForAlternatives[idxWOTabu]) {
-        /*for (i = 0; i < TL->nMoves; ++i) {
+        for (i = 0; i < TL->nMoves; ++i) {
             if (TL->list[i]->iteration > 0) TL->list[i]->iteration--;
-    }*/
-        //return idxWithTabu;
+        }
+        // return idxWithTabu;
     }
     return idxWOTabu;
 }
@@ -153,7 +150,7 @@ void generateAlternatives (ConflictStructure *cf, int currentSlots, int *tempSol
     cf->nAltern = k;
 }
 
-void addTabu (TabuList *TL, int *tempSol, int *alternative, int l, int slot) {
+void addTabu (TabuList *TL, const int *tempSol, const int *alternative, int l, int slot) {
     int i, e1 = -1, e2 = -1, exam = -1, found;
 
     for (i = 0; i < TL->nMoves; ++i) {
@@ -168,7 +165,7 @@ void addTabu (TabuList *TL, int *tempSol, int *alternative, int l, int slot) {
         }
     }
 
-    printf("current move: %d, %d for exam %d\n", e1, e2, exam);
+    // printf("current move: %d, %d for exam %d\n", e1, e2, exam);
     if (e1 != -1 && e2 != -1 && exam != -1)
         for (i = 0, found = 0; i < TL->nMoves && !found; ++i) {
             if (TL->list[i]->iteration == 0) {
@@ -179,7 +176,8 @@ void addTabu (TabuList *TL, int *tempSol, int *alternative, int l, int slot) {
                 found = 1;
             }
         }
-    if (slot <= 15) {
+    // @TODO manage that stuff
+    if (slot <= 19) {
         for (i = 0, found = 0; i < TL->nMoves && !found; ++i) {
             if (TL->list[i]->iteration == 0) {
                 TL->list[i]->e1 = e1;
@@ -238,9 +236,6 @@ void findFeasibleSolution (dataStructure *solution) {
                 copyArray(tempSol, cf->alternatives[j], solution->E);
             } else n = 0;
             printf("slot: %d, conflicts: %d\n", currentSlot, n);
-            for (i = 0; i < TL->nMoves; ++i) {
-                // printf("e1: %d, e2: %d, iter: %d\n", TL->list[i]->e1, TL->list[i]->e2, TL->list[i]->iteration);
-            }
         }
 
         if (currentSlot != solution->timeSlots) {
