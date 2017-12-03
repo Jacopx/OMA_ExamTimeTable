@@ -3,7 +3,7 @@
  *                      Repository available on https://github.com/Jacopx/OMA_ExamTimeTable                          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "Edge.h"
+#include "edge.h"
 
 edge EDGEcreate(int v, int w, int wt){
     edge e;

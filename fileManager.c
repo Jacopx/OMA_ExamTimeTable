@@ -6,7 +6,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "fileManager.h"
-#include "utils.h"
 #define STRDIM 50
 #define LINEDIM 100
 
@@ -305,11 +304,12 @@ int print_Sol(char *filename, dataStructure *solution)
     if(fp = fopen(name,"w"))
     {
         fprintf(fp, "%s %d", e[0]->Ids, e[0]->num);
-        // printf("-%s %d-", e[0]->Ids, e[0]->num);
+        printf(" solution -> %d", e[0]->num);
         for (i = 1; i < solution->E; ++i) {
             fprintf(fp, "\n%s %d", e[i]->Ids, e[i]->num);
-            // printf("\n-%s %d-", e[i]->Ids, e[i]->num);
+            printf(" %d", e[i]->num);
         }
+        printf("\n");
     }
 
     for (i = 0; i < solution->E; ++i) free(e[i]);

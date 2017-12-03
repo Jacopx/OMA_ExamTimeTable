@@ -5,16 +5,17 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "fileManager.h"
-#include "ADTgraph.h"
-#include "ST.h"
-#include "utils.h"
+#include <time.h>
 
 int main(int argc, char **argv) {
     dataStructure *solution = malloc(sizeof(dataStructure));
+    static time_t t1, t2;
 
-    solution->timeLimit = atoi(argv[argc - 1]);
+    if (argc == 4) solution->timeLimit = atoi(argv[argc - 1]);
+    else solution->timeLimit = 0;
+
+    t1 = time(0);
 
     read_Slo(argv[1], solution);
     read_Exm(argv[1], solution);
@@ -30,5 +31,9 @@ int main(int argc, char **argv) {
     GraphFree(solution->g);
     free(solution->exams);
     free(solution);
+
+    t2 = time(0);
+    printf("Finished in %d seconds\n", (int) (t2-t1));
+
     return 0;
 }

@@ -3,7 +3,7 @@
  *                      Repository available on https://github.com/Jacopx/OMA_ExamTimeTable                          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "Edge.h"
+#include "edge.h"
 
 #ifndef OMA_EXAMTIMETABLE_ADTGRAPH_H
 #define OMA_EXAMTIMETABLE_ADTGRAPH_H
