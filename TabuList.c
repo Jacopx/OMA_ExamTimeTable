@@ -8,7 +8,7 @@
 #include "TabuList.h"
 
 #define ITER 7
-#define TABU_LIST_SIZE 800
+#define TABU_LIST_SIZE 1000
 
 TabuList* newTabuList () {
     int i;

@@ -69,5 +69,3 @@ dkms.conf
 # MacOs useless file
 .DS_Store
 **/.DS_Store
-
-instance*
