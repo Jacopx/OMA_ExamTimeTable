@@ -53,7 +53,7 @@ where INT1 is the exam ID and INT2 is the ID of the assigned time-slot (IDs must
 
 ## Authors
 * **Jacopo Maggio** - [JackMGit](https://github.com/JackMGit)
-* **Stefano Munna** - [///](https://github.com/)
+* **Stefano Munna** - [stemunna21](https://github.com/stemunna21)
 * **Jacopo Nasi** - [Jacopx](https://github.com/Jacopx)
 * **Andrea Santu** - [androsanta](https://github.com/androsanta)
 * **Marco Torlaschi** - [Torla](https://github.com/Torla)
