@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
     read_Stu(argv[1], solution);
 
 //    findFeasibleSolution(solution);
-//    findFeasibleGreedyCi(solution);
+    findFeasibleGreedyCi(solution);
     print_Sol(argv[1], solution);
     printf("\n%d\n",isFisible(solution));
 

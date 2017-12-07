@@ -11,6 +11,7 @@
 #include "utils.h"
 #include "TabuList.h"
 #include "ConflictStructure.h"
+#include "rng.h"
 #define MAX_ITERATION 200
 
 
@@ -178,33 +179,29 @@ void findFeasibleSolution (dataStructure *solution) {
 }
 
 void findFeasibleGreedyCi(dataStructure* solution){
-    int i,j,count,more;
-    float bench;
-    struct best_t{
+    int i,j,more;
+    struct {
         int exam;
         int slot;
-        float val;
     }best;
+
     for(i=0;i<solution->E;i++){
         solution->exams[i]=-1;
     }
+
     more=0;
 
     for(i=0;i<solution->E;i++) {
         best.exam = -1;
-        best.slot = -1;
-        best.val = 100000000;
+        best.slot = 10000000;
         for (j = 1; j <= solution->timeSlots+more; j++) {
            solution->exams[i] = j;
-           if(isFisible(solution)) {
-               if (j < best.val) {
-                   best.exam = i;
-                   best.slot = j;
-                   best.val = j;
-                   }
+           if(isFisible(solution) && j < best.slot) {
+               best.exam = i;
+               best.slot = j;
            }
            solution->exams[i] = -1;
-           if(best.val==0) break;
+           if(best.slot==0) break;
         }
         if(best.exam==-1){
             more++;
@@ -212,7 +209,7 @@ void findFeasibleGreedyCi(dataStructure* solution){
         }
         solution->exams[best.exam]=best.slot;
 #ifdef VERBOSE_GREEDY_CI
-        printf("\n%d->%d(%.2f)(more:%d) %d/%d",best.exam,best.slot,best.val,more,i+1,solution->E);
+        printf("\n%d->%d(more:%d) %d/%d",best.exam,best.slot,more,i+1,solution->E);
 #endif
     }
 }
