@@ -34,7 +34,7 @@ int isFisible(dataStructure * solution){
     int i, j, V = GraphGetV(solution->g);
     int **adjM = GraphGetAdjMatrix(solution->g);
 
-    for (i = 0, penalty = 0; i < V - 1; ++i) {
+    for (i = 0; i < V - 1; ++i) {
         for (j = i + 1; j < V; ++j) {
             if (solution->exams[i] == -1 || solution->exams[j] == -1) continue; //for partial solution
             if(solution->exams[i]==solution->exams[j] && adjM[i][j]>0) return 0;
@@ -179,7 +179,7 @@ void findFeasibleSolution (dataStructure *solution) {
 
 void findFeasibleGreedyCi(dataStructure* solution){
     int i,j,count,more;
-    int bed_situa;
+    float bench;
     struct best_t{
         int exam;
         int slot;
@@ -194,17 +194,21 @@ void findFeasibleGreedyCi(dataStructure* solution){
         best.exam = -1;
         best.slot = -1;
         best.val = 100000000;
-        for (i = 0; i < solution->E; i++) {
+        for (i = count; i < count+1; i++) {
             if(solution->exams[i]!=-1) continue;
             for (j = 1; j <= solution->timeSlots+more; j++) {
                 solution->exams[i] = j;
-                if (benchmarkSolution(solution) < best.val && isFisible(solution)) {
-                    best.exam = i;
-                    best.slot = j;
-                    best.val = benchmarkSolution(solution);
+                if(isFisible(solution)) {
+                    if (j < best.val) {
+                        best.exam = i;
+                        best.slot = j;
+                        best.val = j;
+                    }
                 }
                 solution->exams[i] = -1;
+                if(best.val==0) break;
             }
+            if(best.val==0) break;
         }
         if(best.exam==-1){
             more++;
@@ -212,7 +216,7 @@ void findFeasibleGreedyCi(dataStructure* solution){
         }
         solution->exams[best.exam]=best.slot;
 #ifdef VERBOSE_GREEDY_CI
-        printf("\n%d->%d(%.2f)(more:%d)",best.exam,best.slot,best.val,more);
+        printf("\n%d->%d(%.2f)(more:%d) %d/%d",best.exam,best.slot,best.val,more,count+1,solution->E);
 #endif
     }
 }
