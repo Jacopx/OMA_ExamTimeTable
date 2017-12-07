@@ -15,15 +15,15 @@
 #define MAX_ITERATION 200
 
 
-float benchmarkSolution (dataStructure * solution) {
+float benchmarkSolution (dataStructure * solution,int* testSol) {
     int i, j, V = GraphGetV(solution->g), d;
     int **adjM = GraphGetAdjMatrix(solution->g);
     float penalty;
 
     for (i = 0, penalty = 0; i < V - 1; ++i)
         for (j = i + 1; j < V; ++j) {
-            if(solution->exams[i]==-1 || solution->exams[j]==-1) continue; //for partial solution
-            d = abs(solution->exams[i] - solution->exams[j]);
+            if(testSol[i]==-1 || testSol[j]==-1) continue; //for partial solution
+            d = abs(testSol[i] - testSol[j]);
             if (d <= 5 && adjM[i][j] != 0)
                 penalty += (float)pow(2, 5 - d) * (float)adjM[i][j];
         }
@@ -31,14 +31,14 @@ float benchmarkSolution (dataStructure * solution) {
     return penalty / solution->S;
 }
 
-int isFeasible(dataStructure * solution){
+int isFeasible(dataStructure * solution,int *testSol){
     int i, j, V = GraphGetV(solution->g);
     int **adjM = GraphGetAdjMatrix(solution->g);
 
     for (i = 0; i < V - 1; ++i) {
         for (j = i + 1; j < V; ++j) {
-            if (solution->exams[i] == -1 || solution->exams[j] == -1) continue; //for partial solution
-            if(solution->exams[i]==solution->exams[j] && adjM[i][j]>0) return 0;
+            if (testSol[i] == -1 || testSol[j] == -1) continue; //for partial solution
+            if(testSol[i]==testSol[j] && adjM[i][j]>0) return 0;
         }
     }
 return 1;
@@ -184,6 +184,7 @@ void findFeasibleGreedyCi(dataStructure* solution){
     struct {
         int exam;
         int slot;
+        float val;
     }best;
 
     for(i=0;i<solution->E;i++){
@@ -197,7 +198,7 @@ void findFeasibleGreedyCi(dataStructure* solution){
         best.slot = 10000000;
         for (j = 1; j <= solution->timeSlots+more; j++) {
            solution->exams[i] = j;
-           if(isFeasible(solution) && j < best.slot) {
+           if(isFeasible(solution,solution->exams) && j < best.slot) {
                best.exam = i;
                best.slot = j;
            }
@@ -210,7 +211,7 @@ void findFeasibleGreedyCi(dataStructure* solution){
         }
         solution->exams[best.exam]=best.slot;
 #ifdef VERBOSE_GREEDY_CI
-        printf("\n%d->%d(more:%d) %d/%d",best.exam,best.slot,more,i+1,solution->E);
+        printf("\n%d->%d(more:%d) %d/%d",best.exam,best.slot,more,i+1,solution->E)  ;
 #endif
     }
 }

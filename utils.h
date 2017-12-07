@@ -29,8 +29,8 @@ typedef struct {
     int length;
 } TempSol;
 
-float benchmarkSolution (dataStructure *solution);
-int isFeasible(dataStructure * );
+float benchmarkSolution (dataStructure *solution,int * testSol);
+int isFeasible(dataStructure * ,int *);
 void findFeasibleSolution (dataStructure *solution);
 void copyArray (int *s1, const int *s2, int l);
 void findFeasibleGreedyCi(dataStructure *);

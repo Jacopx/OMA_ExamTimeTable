@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include "fileManager.h"
+#include "utils.h"
+
 #define STRDIM 50
 #define LINEDIM 100
 
@@ -290,7 +292,7 @@ int print_Sol(char *filename, dataStructure *solution)
     strcpy(name, filename);
     strcat(name, "_OMAMZ_group03.sol");
 
-    printf("penalty: %f\n", benchmarkSolution(solution));
+    printf("penalty: %f\n", benchmarkSolution(solution,solution->exams));
 
     // copy solution into another data structure
     for (i = 0; i < solution->E; ++i) {

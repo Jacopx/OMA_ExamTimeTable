@@ -8,6 +8,7 @@
 #include "fileManager.h"
 #include <time.h>
 #include "rng.h"
+#include "utils.h"
 
 int main(int argc, char **argv) {
     dataStructure *solution = malloc(sizeof(dataStructure));
@@ -30,7 +31,7 @@ int main(int argc, char **argv) {
     findFeasibleGreedyCi(solution);
     findFeasibleSolution(solution);
     print_Sol(argv[1], solution);
-    printf("\n%d\n",isFeasible(solution));
+    printf("\n%d\n",isFeasible(solution,solution->exams));
 
     STfree(solution->tab);
     GraphFree(solution->g);
