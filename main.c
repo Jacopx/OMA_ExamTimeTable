@@ -12,6 +12,7 @@
 
 int main(int argc, char **argv) {
     dataStructure *solution = malloc(sizeof(dataStructure));
+    TempSol *temp=NULL;
     static time_t t1, t2;
 
     randomize();
@@ -28,7 +29,7 @@ int main(int argc, char **argv) {
     sortBasedOnEdges(solution);
     read_Stu(argv[1], solution);
 
-    findFeasibleGreedyCi(solution);
+    findFeasibleGreedyCi(solution,temp);
     findFeasibleSolution(solution);
     print_Sol(argv[1], solution);
     printf("\n%d\n",isFeasible(solution,solution->exams));

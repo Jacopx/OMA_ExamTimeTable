@@ -49,16 +49,16 @@ void copyArray (int *s1, const int *s2, int l) {
     for (i = 0; i < l; ++i) s1[i] = s2[i];
 }
 
-TempSol* newTempSol (int nExams,dataStructure* sol) {
+TempSol* newTempSol (dataStructure* sol) {
     int i;
     TempSol *ts = malloc(sizeof(TempSol));
-    ts->length = nExams;
-    ts->currentTimeSlot = nExams;
-    ts->tempSolConflicts = nExams;
-    ts->numConflictBestSolution = nExams; // i.e. number of conflict of current best solution
-    ts->temporarySolution = malloc(nExams * sizeof(int));
+    ts->length = sol->E;
+    ts->currentTimeSlot = sol->E;
+    ts->tempSolConflicts =sol->E;
+    ts->numConflictBestSolution = sol->E; // i.e. number of conflict of current best solution
+    ts->temporarySolution = malloc(sol->E * sizeof(int));
     //for (i = 0; i < nExams; ++i) ts->temporarySolution[i] = i + 1;
-    for (i = 0; i < nExams; ++i) ts->temporarySolution[i] = sol->exams[i];
+    for (i = 0; i < sol->E; ++i) ts->temporarySolution[i] = sol->exams[i];
     return ts;
 }
 
@@ -77,7 +77,7 @@ void findFeasibleSolution (dataStructure *solution) {
     for (i = 0; i < solution->E; ++i) backupSolution[i] = malloc(solution->E * sizeof(int));
 
     // initialization
-    Tsol = newTempSol(solution->E,solution);
+    Tsol = newTempSol(solution);
     TL = newTabuList();
     cf = newConflictStructure(solution->E);
 
@@ -179,14 +179,14 @@ void findFeasibleSolution (dataStructure *solution) {
     freeConflictStructure(cf);
 }
 
-void findFeasibleGreedyCi(dataStructure* solution){
+void findFeasibleGreedyCi(dataStructure* solution,TempSol *sol){
     int i,j,more;
     struct {
         int exam;
         int slot;
         float val;
     }best;
-
+    sol=newTempSol(solution);
     for(i=0;i<solution->E;i++){
         solution->exams[i]=-1;
     }
