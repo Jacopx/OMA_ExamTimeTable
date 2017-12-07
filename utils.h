@@ -9,7 +9,8 @@
 #ifndef OMA_EXAMTIMETABLE_UTILS_H
 #define OMA_EXAMTIMETABLE_UTILS_H
 
-#define VERBOSE_TABU //there is another one in TabuList
+//#define VERBOSE_TABU //there is another one in TabuList
+#define VERBOSE_GREEDY_CI
 
 typedef struct {
     int *exams;
@@ -29,7 +30,8 @@ typedef struct {
 } TempSol;
 
 float benchmarkSolution (dataStructure *solution);
+int isFisible(dataStructure * );
 void findFeasibleSolution (dataStructure *solution);
 void copyArray (int *s1, const int *s2, int l);
-
+void findFeasibleGreedyCi(dataStructure *);
 #endif //OMA_EXAMTIMETABLE_UTILS_H

@@ -21,12 +21,26 @@ float benchmarkSolution (dataStructure * solution) {
 
     for (i = 0, penalty = 0; i < V - 1; ++i)
         for (j = i + 1; j < V; ++j) {
+            if(solution->exams[i]==-1 || solution->exams[j]==-1) continue; //for partial solution
             d = abs(solution->exams[i] - solution->exams[j]);
             if (d <= 5 && adjM[i][j] != 0)
                 penalty += (float)pow(2, 5 - d) * (float)adjM[i][j];
         }
 
     return penalty / solution->S;
+}
+
+int isFisible(dataStructure * solution){
+    int i, j, V = GraphGetV(solution->g);
+    int **adjM = GraphGetAdjMatrix(solution->g);
+
+    for (i = 0, penalty = 0; i < V - 1; ++i) {
+        for (j = i + 1; j < V; ++j) {
+            if (solution->exams[i] == -1 || solution->exams[j] == -1) continue; //for partial solution
+            if(solution->exams[i]==solution->exams[j] && adjM[i][j]>0) return 0;
+        }
+    }
+return 1;
 }
 
 void copyArray (int *s1, const int *s2, int l) {
@@ -161,4 +175,44 @@ void findFeasibleSolution (dataStructure *solution) {
     freeTempSol(Tsol);
     freeTabuList(TL);
     freeConflictStructure(cf);
+}
+
+void findFeasibleGreedyCi(dataStructure* solution){
+    int i,j,count,more;
+    int bed_situa;
+    struct best_t{
+        int exam;
+        int slot;
+        float val;
+    }best;
+    for(i=0;i<solution->E;i++){
+        solution->exams[i]=-1;
+    }
+    more=0;
+
+    for(count=0;count<solution->E;count++) {
+        best.exam = -1;
+        best.slot = -1;
+        best.val = 100000000;
+        for (i = 0; i < solution->E; i++) {
+            if(solution->exams[i]!=-1) continue;
+            for (j = 1; j <= solution->timeSlots+more; j++) {
+                solution->exams[i] = j;
+                if (benchmarkSolution(solution) < best.val && isFisible(solution)) {
+                    best.exam = i;
+                    best.slot = j;
+                    best.val = benchmarkSolution(solution);
+                }
+                solution->exams[i] = -1;
+            }
+        }
+        if(best.exam==-1){
+            more++;
+            count--;
+        }
+        solution->exams[best.exam]=best.slot;
+#ifdef VERBOSE_GREEDY_CI
+        printf("\n%d->%d(%.2f)(more:%d)",best.exam,best.slot,best.val,more);
+#endif
+    }
 }

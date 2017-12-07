@@ -6,7 +6,7 @@
 #ifndef OMA_EXAMTIMETABLE_TABULIST_H
 #define OMA_EXAMTIMETABLE_TABULIST_H
 
-#define VERBOSE_TABU_LIST
+//#define VERBOSE_TABU_LIST
 
 #include "utils.h"
 
