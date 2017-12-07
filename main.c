@@ -27,8 +27,8 @@ int main(int argc, char **argv) {
     sortBasedOnEdges(solution);
     read_Stu(argv[1], solution);
 
-//    findFeasibleSolution(solution);
     findFeasibleGreedyCi(solution);
+    findFeasibleSolution(solution);
     print_Sol(argv[1], solution);
     printf("\n%d\n",isFisible(solution));
 

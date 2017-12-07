@@ -9,7 +9,7 @@
 #ifndef OMA_EXAMTIMETABLE_UTILS_H
 #define OMA_EXAMTIMETABLE_UTILS_H
 
-//#define VERBOSE_TABU //there is another one in TabuList
+#define VERBOSE_TABU //there is another one in TabuList
 #define VERBOSE_GREEDY_CI
 
 typedef struct {
