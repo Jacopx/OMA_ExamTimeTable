@@ -190,33 +190,29 @@ void findFeasibleGreedyCi(dataStructure* solution){
     }
     more=0;
 
-    for(count=0;count<solution->E;count++) {
+    for(i=0;i<solution->E;i++) {
         best.exam = -1;
         best.slot = -1;
         best.val = 100000000;
-        for (i = count; i < count+1; i++) {
-            if(solution->exams[i]!=-1) continue;
-            for (j = 1; j <= solution->timeSlots+more; j++) {
-                solution->exams[i] = j;
-                if(isFisible(solution)) {
-                    if (j < best.val) {
-                        best.exam = i;
-                        best.slot = j;
-                        best.val = j;
-                    }
-                }
-                solution->exams[i] = -1;
-                if(best.val==0) break;
-            }
-            if(best.val==0) break;
+        for (j = 1; j <= solution->timeSlots+more; j++) {
+           solution->exams[i] = j;
+           if(isFisible(solution)) {
+               if (j < best.val) {
+                   best.exam = i;
+                   best.slot = j;
+                   best.val = j;
+                   }
+           }
+           solution->exams[i] = -1;
+           if(best.val==0) break;
         }
         if(best.exam==-1){
             more++;
-            count--;
+            i--;
         }
         solution->exams[best.exam]=best.slot;
 #ifdef VERBOSE_GREEDY_CI
-        printf("\n%d->%d(%.2f)(more:%d) %d/%d",best.exam,best.slot,best.val,more,count+1,solution->E);
+        printf("\n%d->%d(%.2f)(more:%d) %d/%d",best.exam,best.slot,best.val,more,i+1,solution->E);
 #endif
     }
 }
