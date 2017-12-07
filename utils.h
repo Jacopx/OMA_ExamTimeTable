@@ -30,7 +30,7 @@ typedef struct {
 } TempSol;
 
 float benchmarkSolution (dataStructure *solution);
-int isFisible(dataStructure * );
+int isFeasible(dataStructure * );
 void findFeasibleSolution (dataStructure *solution);
 void copyArray (int *s1, const int *s2, int l);
 void findFeasibleGreedyCi(dataStructure *);
