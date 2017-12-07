@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     findFeasibleGreedyCi(solution);
     findFeasibleSolution(solution);
     print_Sol(argv[1], solution);
-    printf("\n%d\n",isFisible(solution));
+    printf("\n%d\n",isFeasible(solution));
 
     STfree(solution->tab);
     GraphFree(solution->g);
