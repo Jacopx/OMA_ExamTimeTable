@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include "fileManager.h"
 #include <time.h>
-#include "rng.h"
+
 #include "utils.h"
 
 int main(int argc, char **argv) {
@@ -15,7 +15,6 @@ int main(int argc, char **argv) {
     TempSol *temp=NULL;
     static time_t t1, t2;
 
-    randomize();
 
     if (argc == 4) solution->timeLimit = atoi(argv[argc - 1]);
     else solution->timeLimit = 0;
@@ -34,7 +33,7 @@ int main(int argc, char **argv) {
     findFeasibleSolution(solution,temp);
     print_Sol(argv[1], solution);
 
-
+    freeTempSol(temp);
     STfree(solution->tab);
     GraphFree(solution->g);
     free(solution->exams);

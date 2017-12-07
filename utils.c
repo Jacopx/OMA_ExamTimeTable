@@ -31,7 +31,7 @@ float benchmarkSolution (dataStructure * solution,int* testSol) {
     return penalty / solution->S;
 }
 
-int isFeasible(dataStructure * solution,int *testSol){
+int isFeasible(dataStructure * solution,const int *testSol){
     int i, j, V = GraphGetV(solution->g);
     int **adjM = GraphGetAdjMatrix(solution->g);
 
@@ -43,6 +43,18 @@ int isFeasible(dataStructure * solution,int *testSol){
     }
 return 1;
 }
+//
+//int isFeasibleThisOne(dataStructure * solution,int *testSol,int exam,int slot){
+//    int i, j, V = GraphGetV(solution->g);
+//    int **adjM = GraphGetAdjMatrix(solution->g);
+//
+//    i=exam;
+//    for (j = i + 1; j < V; ++j) {
+//        if (testSol[i] == -1 || testSol[j] == -1) continue; //for partial solution
+//        if(slot==testSol[j] && adjM[i][j]>0) return 0;
+//    }
+//return 1;
+//}
 
 void copyArray (int *s1, const int *s2, int l) {
     int i;
@@ -57,8 +69,7 @@ TempSol* newTempSol (dataStructure* sol) {
     ts->tempSolConflicts =sol->E;
     ts->numConflictBestSolution = sol->E; // i.e. number of conflict of current best solution
     ts->temporarySolution = malloc(sol->E * sizeof(int));
-    for (i = 0; i < sol->E; ++i) ts->temporarySolution[i] = i + 1;
-    //for (i = 0; i < sol->E; ++i) ts->temporarySolution[i] = sol->exams[i];
+    for (i = 0; i < sol->E; ++i) ts->temporarySolution[i] = -1;
     return ts;
 }
 
@@ -183,13 +194,7 @@ void findFeasibleGreedyCi(dataStructure* solution,TempSol *sol){
         int slot;
         float val;
     }best;
-
-    for(i=0;i<solution->E;i++){
-        sol->temporarySolution[i]=-1;
-    }
-
     more=0;
-
     for(i=0;i<solution->E;i++) {
         best.exam = -1;
         best.slot = 10000000;
