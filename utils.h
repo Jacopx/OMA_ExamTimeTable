@@ -9,6 +9,8 @@
 #ifndef OMA_EXAMTIMETABLE_UTILS_H
 #define OMA_EXAMTIMETABLE_UTILS_H
 
+#define VERBOSE_TABU //there is another one in TabuList
+
 typedef struct {
     int *exams;
     int E, timeSlots;

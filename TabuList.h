@@ -6,6 +6,8 @@
 #ifndef OMA_EXAMTIMETABLE_TABULIST_H
 #define OMA_EXAMTIMETABLE_TABULIST_H
 
+#define VERBOSE_TABU_LIST
+
 #include "utils.h"
 
 typedef struct {

@@ -3,6 +3,8 @@
 *                      Repository available on https://github.com/Jacopx/OMA_ExamTimeTable                          *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "TabuList.h"
@@ -45,8 +47,9 @@ void addTabu (TabuList *TL, TempSol *Tsol, const int *alternative) {
             exam = i;
         }
     }
-
+#ifdef VERBOSE_TABU_LIST
     printf("current move: exam %d: %d->%d\n", exam, e1, e2);
+#endif
     for (i = 0, found = 0; i < TL->listLength && !found; ++i) {
         if (TL->list[i]->iteration == 0) {
             TL->list[i]->e1 = e2;

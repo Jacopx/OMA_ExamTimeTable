@@ -3,6 +3,8 @@
  *                      Repository available on https://github.com/Jacopx/OMA_ExamTimeTable                          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
+
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,6 +12,7 @@
 #include "TabuList.h"
 #include "ConflictStructure.h"
 #define MAX_ITERATION 200
+
 
 float benchmarkSolution (dataStructure * solution) {
     int i, j, V = GraphGetV(solution->g), d;
@@ -82,26 +85,33 @@ void findFeasibleSolution (dataStructure *solution) {
                 copyArray(Tsol->temporarySolution, cf->alternatives[bestAlternativeIndex], solution->E);
             }
             if (Tsol->tempSolConflicts < Tsol->numConflictBestSolution) Tsol->numConflictBestSolution = Tsol->tempSolConflicts;
+#ifdef VERBOSE_TABU
             printf("slot: %d, best sol conflicts: %d, current sol conflicts: %d\n", Tsol->currentTimeSlot, Tsol->numConflictBestSolution, Tsol->tempSolConflicts);
-
+#endif
             if (iteration >= 60) {
                 TL->iteration += 5;
             }
 
             if (iteration >= MAX_ITERATION) {
                 diff = Tsol->currentTimeSlot;
-                printf("entered into a loop :(\n");
-                printf("current time slot: %d\n", Tsol->currentTimeSlot);
+#ifdef VERBOSE_TABU
+               printf("entered into a loop :(\n");
+               printf("current time slot: %d\n", Tsol->currentTimeSlot);
+#endif
                 Tsol->currentTimeSlot++;
                 Tsol->numConflictBestSolution = 0;
                 copyArray(Tsol->temporarySolution, backupSolution[Tsol->currentTimeSlot - 1], Tsol->length);
+#ifdef VERBOSE_TABU
                 printf("backtrack to %d\n", Tsol->currentTimeSlot);
                 printf("now current sol is: ");
                 for (i = 0; i < Tsol->length; ++i) printf("%d ", Tsol->temporarySolution[i]);
                 printf("\n");
+#endif
                 isLooping = 1;
                 c++;
-                printf("trying with slot: %d\n", Tsol->currentTimeSlot - c);
+#ifdef VERBOSE_TABU
+                 printf("trying with slot: %d\n", Tsol->currentTimeSlot - c);
+#endif
                 // exit(1);
             }
         }
