@@ -31,7 +31,7 @@ float benchmarkSolution (dataStructure * solution) {
     return penalty / solution->S;
 }
 
-int isFisible(dataStructure * solution){
+int isFeasible(dataStructure * solution){
     int i, j, V = GraphGetV(solution->g);
     int **adjM = GraphGetAdjMatrix(solution->g);
 
@@ -197,7 +197,7 @@ void findFeasibleGreedyCi(dataStructure* solution){
         best.slot = 10000000;
         for (j = 1; j <= solution->timeSlots+more; j++) {
            solution->exams[i] = j;
-           if(isFisible(solution) && j < best.slot) {
+           if(isFeasible(solution) && j < best.slot) {
                best.exam = i;
                best.slot = j;
            }
