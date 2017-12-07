@@ -29,10 +29,11 @@ int main(int argc, char **argv) {
     sortBasedOnEdges(solution);
     read_Stu(argv[1], solution);
 
+    temp=newTempSol(solution);
     findFeasibleGreedyCi(solution,temp);
-    findFeasibleSolution(solution);
+    findFeasibleSolution(solution,temp);
     print_Sol(argv[1], solution);
-    printf("\n%d\n",isFeasible(solution,solution->exams));
+
 
     STfree(solution->tab);
     GraphFree(solution->g);

@@ -57,8 +57,8 @@ TempSol* newTempSol (dataStructure* sol) {
     ts->tempSolConflicts =sol->E;
     ts->numConflictBestSolution = sol->E; // i.e. number of conflict of current best solution
     ts->temporarySolution = malloc(sol->E * sizeof(int));
-    //for (i = 0; i < nExams; ++i) ts->temporarySolution[i] = i + 1;
-    for (i = 0; i < sol->E; ++i) ts->temporarySolution[i] = sol->exams[i];
+    for (i = 0; i < sol->E; ++i) ts->temporarySolution[i] = i + 1;
+    //for (i = 0; i < sol->E; ++i) ts->temporarySolution[i] = sol->exams[i];
     return ts;
 }
 
@@ -67,9 +67,8 @@ void freeTempSol (TempSol *ts) {
     free(ts);
 }
 
-void findFeasibleSolution (dataStructure *solution) {
+void findFeasibleSolution (dataStructure *solution,TempSol *Tsol) {
     int i, c = 1, bestAlternativeIndex, iteration, isLooping, **backupSolution, diff = solution->E, var;
-    TempSol *Tsol;
     TabuList *TL;
     ConflictStructure *cf;
 
@@ -77,15 +76,13 @@ void findFeasibleSolution (dataStructure *solution) {
     for (i = 0; i < solution->E; ++i) backupSolution[i] = malloc(solution->E * sizeof(int));
 
     // initialization
-    Tsol = newTempSol(solution);
     TL = newTabuList();
     cf = newConflictStructure(solution->E);
 
-    while (Tsol->currentTimeSlot + 1 > solution->timeSlots) {
+    while (Tsol->currentTimeSlot + 1 > solution->timeSlots) { //SEG HERE!!!
         // check feasibility, or find conflicts
         Tsol->tempSolConflicts = 10000;
         Tsol->numConflictBestSolution = 10000;
-
         iteration = 0;
         isLooping = 0;
         while (Tsol->numConflictBestSolution != 0) {
@@ -186,9 +183,9 @@ void findFeasibleGreedyCi(dataStructure* solution,TempSol *sol){
         int slot;
         float val;
     }best;
-    sol=newTempSol(solution);
+
     for(i=0;i<solution->E;i++){
-        solution->exams[i]=-1;
+        sol->temporarySolution[i]=-1;
     }
 
     more=0;
@@ -197,21 +194,22 @@ void findFeasibleGreedyCi(dataStructure* solution,TempSol *sol){
         best.exam = -1;
         best.slot = 10000000;
         for (j = 1; j <= solution->timeSlots+more; j++) {
-           solution->exams[i] = j;
-           if(isFeasible(solution,solution->exams) && j < best.slot) {
+           sol->temporarySolution[i] = j;
+           if(isFeasible(solution,sol->temporarySolution) && j < best.slot) {
                best.exam = i;
                best.slot = j;
            }
-           solution->exams[i] = -1;
+            sol->temporarySolution[i] = -1;
            if(best.slot==0) break;
         }
         if(best.exam==-1){
             more++;
             i--;
         }
-        solution->exams[best.exam]=best.slot;
+        sol->temporarySolution[best.exam]=best.slot;
 #ifdef VERBOSE_GREEDY_CI
         printf("\n%d->%d(more:%d) %d/%d",best.exam,best.slot,more,i+1,solution->E)  ;
 #endif
     }
+    sol->currentTimeSlot=solution->timeSlots+more;
 }

@@ -29,9 +29,10 @@ typedef struct {
     int length;
 } TempSol;
 
+TempSol* newTempSol (dataStructure* sol);
 float benchmarkSolution (dataStructure *solution,int * testSol);
 int isFeasible(dataStructure * ,int *);
-void findFeasibleSolution (dataStructure *solution);
+void findFeasibleSolution (dataStructure *solution,TempSol *Tsol);
 void copyArray (int *s1, const int *s2, int l);
 void findFeasibleGreedyCi(dataStructure *, TempSol *);
 #endif //OMA_EXAMTIMETABLE_UTILS_H
