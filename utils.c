@@ -43,18 +43,19 @@ int isFeasible(dataStructure * solution,const int *testSol){
     }
 return 1;
 }
-//
-//int isFeasibleThisOne(dataStructure * solution,int *testSol,int exam,int slot){
-//    int i, j, V = GraphGetV(solution->g);
-//    int **adjM = GraphGetAdjMatrix(solution->g);
-//
-//    i=exam;
-//    for (j = i + 1; j < V; ++j) {
-//        if (testSol[i] == -1 || testSol[j] == -1) continue; //for partial solution
-//        if(slot==testSol[j] && adjM[i][j]>0) return 0;
-//    }
-//return 1;
-//}
+
+int isFeasibleThis(dataStructure * solution,const int *testSol,int exam,int slot){
+    int i, j, V = GraphGetV(solution->g);
+    int **adjM = GraphGetAdjMatrix(solution->g);
+
+    i=exam;
+for(i=0;i<solution->E;i++){
+    if(testSol[i]==slot && i!=exam){
+        if(adjM[i][exam]>0) return 0;
+    }
+}
+return 1;
+}
 
 void copyArray (int *s1, const int *s2, int l) {
     int i;

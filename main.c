@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include "fileManager.h"
 #include <time.h>
-
+#include "local.h"
 #include "utils.h"
 
 int main(int argc, char **argv) {
@@ -32,6 +32,9 @@ int main(int argc, char **argv) {
     findFeasibleGreedyCi(solution,temp);
     findFeasibleSolution(solution,temp);
     print_Sol(argv[1], solution);
+
+    localSearch(solution,1000000);
+    print_Sol(argv[1],solution);
 
     freeTempSol(temp);
     STfree(solution->tab);

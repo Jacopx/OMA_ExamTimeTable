@@ -33,6 +33,7 @@ TempSol* newTempSol (dataStructure* sol);
 void freeTempSol (TempSol *ts);
 float benchmarkSolution (dataStructure *solution,int * testSol);
 int isFeasible(dataStructure * ,const int *);
+int isFeasibleThis(dataStructure * ,const int *,int exam,int slot);
 void findFeasibleSolution (dataStructure *solution,TempSol *Tsol);
 void copyArray (int *s1, const int *s2, int l);
 void findFeasibleGreedyCi(dataStructure *, TempSol *);
