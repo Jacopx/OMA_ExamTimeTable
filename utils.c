@@ -18,17 +18,18 @@
 float benchmarkSolution (dataStructure * solution,int* testSol) {
     int i, j, V = GraphGetV(solution->g), d;
     int **adjM = GraphGetAdjMatrix(solution->g);
-    float penalty;
-
+    int penalty;
+    const int fastPow[6]={32,16,8,4,2,1};
+    
     for (i = 0, penalty = 0; i < V - 1; ++i)
         for (j = i + 1; j < V; ++j) {
             if(testSol[i]==-1 || testSol[j]==-1) continue; //for partial solution
             d = abs(testSol[i] - testSol[j]);
             if (d <= 5 && adjM[i][j] != 0)
-                penalty += (float)pow(2, 5 - d) * (float)adjM[i][j];
+                penalty += fastPow[d] * adjM[i][j];
         }
 
-    return penalty / solution->S;
+    return (float)penalty / solution->S;
 }
 
 int isFeasible(dataStructure * solution,const int *testSol){

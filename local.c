@@ -7,7 +7,9 @@
 #include "utils.h"
 #include <time.h>
 
-void localSearch(dataStructure * sol,int maxTime){
+
+
+void localSearch(dataStructure *sol, int maxTime) {
     int e,s,startTime,old;
     float minimum,val;
     struct {
@@ -43,6 +45,4 @@ void localSearch(dataStructure * sol,int maxTime){
         }
         else break;
     }
-
-
 }
