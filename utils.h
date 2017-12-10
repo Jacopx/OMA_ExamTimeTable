@@ -32,6 +32,7 @@ typedef struct {
 TempSol* newTempSol (dataStructure* sol);
 void freeTempSol (TempSol *ts);
 float benchmarkSolution (dataStructure *solution,int * testSol);
+float benchmarkSolutionDeltaMove(dataStructure *solution,int * testSol,int exam, int oldSlot,int newSlot);
 int isFeasible(dataStructure * ,const int *);
 int isFeasibleThis(dataStructure * ,const int *,int exam,int slot);
 void findFeasibleSolution (dataStructure *solution,TempSol *Tsol);
