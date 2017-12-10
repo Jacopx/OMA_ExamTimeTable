@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include "fileManager.h"
 #include <time.h>
+#include "annealing.h"
 #include "local.h"
 #include "utils.h"
 
@@ -33,6 +34,7 @@ int main(int argc, char **argv) {
     findFeasibleSolution(solution,temp);
     print_Sol(argv[1], solution);
 
+    simulateAnnealingSearch(solution,200);
     localSearch(solution,1000000);
     print_Sol(argv[1],solution);
 

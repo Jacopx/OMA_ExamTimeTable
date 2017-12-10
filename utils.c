@@ -67,7 +67,7 @@ return 1;
 int isFeasibleThis(dataStructure * solution,const int *testSol,int exam,int slot){
     int i;
     int **adjM = GraphGetAdjMatrix(solution->g);
-    
+
 for(i=0;i<solution->E;i++){
     if(testSol[i]==slot && i!=exam){
         if(adjM[i][exam]>0) return 0;
