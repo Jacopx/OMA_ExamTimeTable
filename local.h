@@ -7,6 +7,8 @@
 
 #include "utils.h"
 
+#define VERBOSE_LOCAL
+
 void localSearch(dataStructure * sol,int maxTime);
 
 #endif //OMA_EXAMTIMETABLE_LOCAL_H

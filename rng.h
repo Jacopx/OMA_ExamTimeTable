@@ -8,7 +8,7 @@
 #include <time.h>
 
 #define randomize() (srand(time(NULL)))
-#define random( x, y ) ((rand()%(y-x+1))+x)
-#define fate(x) ((random(0,999)<x)?1:0)
+#define random( x, y ) ((rand()%((y)-(x)+1))+(x))
+#define fate(x) ((random(0,999)<(x))?1:0)
 
 #endif //OMA_EXAMTIMETABLE_RNG_H

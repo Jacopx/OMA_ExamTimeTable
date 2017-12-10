@@ -5,13 +5,12 @@
 
 
 
-#include <math.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "utils.h"
 #include "TabuList.h"
 #include "ConflictStructure.h"
-#include "rng.h"
 #define MAX_ITERATION 200
 
 
@@ -33,25 +32,21 @@ float benchmarkSolution (dataStructure * solution,int* testSol) {
 }
 
 float benchmarkSolutionDeltaMove(dataStructure *solution,int * testSol,int exam, int oldSlot,int newSlot){
-    int i, j, d;
+    int i, d;
     int **adjM = GraphGetAdjMatrix(solution->g);
-    float penalty=0;
+    int penalty=0;
     const int fastPow[6]={32,16,8,4,2,1};
     for(i=0;i<solution->E;i++){
         if(i==exam) continue;
-        if(testSol[i]<=oldSlot+5 && testSol[i]>=oldSlot-5 || 1){
-            d = abs(testSol[i] - oldSlot);
-            if (d<=5 && adjM[i][exam] != 0)
-                penalty -= fastPow[d] * adjM[i][exam];
-        }
+        d = abs(testSol[i] - oldSlot);
+        if (d<=5 && adjM[i][exam] != 0)
+            penalty -= fastPow[d] * adjM[i][exam];
     }
     for(i=0;i<solution->E;i++){
         if(i==exam) continue;
-        if(testSol[i]<=oldSlot+5 && testSol[i]>=oldSlot-5 || 1){
-            d = abs(testSol[i] - newSlot);
-            if (d<=5 && adjM[i][exam] != 0)
-                penalty += fastPow[d] * adjM[i][exam];
-        }
+        d = abs(testSol[i] - newSlot);
+        if (d<=5 && adjM[i][exam] != 0)
+            penalty += fastPow[d] * adjM[i][exam];
     }
     return (float)penalty / solution->S;
 }
@@ -70,10 +65,9 @@ return 1;
 }
 
 int isFeasibleThis(dataStructure * solution,const int *testSol,int exam,int slot){
-    int i, j, V = GraphGetV(solution->g);
+    int i;
     int **adjM = GraphGetAdjMatrix(solution->g);
-
-    i=exam;
+    
 for(i=0;i<solution->E;i++){
     if(testSol[i]==slot && i!=exam){
         if(adjM[i][exam]>0) return 0;

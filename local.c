@@ -4,21 +4,20 @@
 
 #include "stdio.h"
 #include "local.h"
-#include "utils.h"
 #include <time.h>
 
+const float minimiumDelta = 0.00001;
 
 
 void localSearch(dataStructure *sol, int maxTime) {
-    int e,s,startTime,old;
-    float minimum,delta;
+    int e,s,startTime;
+    float delta;
     struct {
         int exam;
         int slot;
         float delta;
     }best;
     startTime=time(NULL);
-    minimum=benchmarkSolution(sol,sol->exams);
     while(time(NULL)-startTime<maxTime){
         best.exam=-1;
         best.slot=-1;
@@ -35,10 +34,11 @@ void localSearch(dataStructure *sol, int maxTime) {
                 }
             }
         }
-        if(best.delta<0){
+        if(best.delta<-minimiumDelta){
             sol->exams[best.exam]=best.slot;
-            minimum=benchmarkSolution(sol,sol->exams);
-            printf("\n%d->%d (%.3f,%.3f)",best.exam,best.slot,best.delta,minimum);
+#ifdef VERBOSE_LOCAL
+            printf("\n%d->%d (%.3f,%.3f)",best.exam,best.slot,best.delta,benchmarkSolution(sol,sol->exams));
+#endif
         }
         else break;
     }

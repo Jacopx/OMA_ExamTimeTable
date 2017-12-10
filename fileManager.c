@@ -303,7 +303,7 @@ int print_Sol(char *filename, dataStructure *solution)
     // to sort it based on exam id
     qsort(e, (unsigned int)solution->E, sizeof(orderedExams*), cmpFunctionForId);
 
-    if(fp = fopen(name,"w"))
+    if((fp = fopen(name, "w")))
     {
         fprintf(fp, "%s %d", e[0]->Ids, e[0]->num);
         printf(" solution -> %d", e[0]->num);
