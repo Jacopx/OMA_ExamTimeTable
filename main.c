@@ -33,8 +33,8 @@ int main(int argc, char **argv) {
     findFeasibleSolution(solution,temp);
     print_Sol(argv[1], solution);
 
-    localSearch(solution,1000000);
-    print_Sol(argv[1],solution);
+ //   localSearch(solution,1000000);
+ //   print_Sol(argv[1],solution);
 
     freeTempSol(temp);
     STfree(solution->tab);

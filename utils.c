@@ -201,7 +201,7 @@ void findFeasibleGreedyCi(dataStructure* solution,TempSol *sol){
         best.slot = 10000000;
         for (j = 1; j <= solution->timeSlots+more; j++) {
            sol->temporarySolution[i] = j;
-           if(isFeasible(solution,sol->temporarySolution) && j < best.slot) {
+           if(isFeasibleThis(solution,sol->temporarySolution,i,j) && j < best.slot) {
                best.exam = i;
                best.slot = j;
            }
