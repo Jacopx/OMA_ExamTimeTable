@@ -25,10 +25,11 @@ void simulateAnnealingSearch(dataStructure * sol,int maxTime){
     for(j=0;j<sol->E;j++){
         tempSol->temporarySolution[j]=sol->exams[j];
     }
-    T=T0;
+
     startTime=time(NULL);
     for(turn=0;turn<maxTurn;turn++) {
-        for (i = 0; time(NULL) - startTime < maxTime && T > 0.001;) {
+        T=T0;
+        for (i = 0; T > 0.001;) {
             e = random(0, sol->E - 1);
             s = random(1, sol->timeSlots);
             if (benchmarkSolution(sol, tempSol->temporarySolution) < best && isFeasible(sol,tempSol->temporarySolution)) {
@@ -37,15 +38,15 @@ void simulateAnnealingSearch(dataStructure * sol,int maxTime){
                 }
                 best = benchmarkSolution(sol, sol->exams);
             }
-            if (!flag || isFeasibleThis(sol, tempSol->temporarySolution, e, s)) {
+            if (flag<turn || isFeasibleThis(sol, tempSol->temporarySolution, e, s)) {
                 i++;
                 delta = benchmarkSolutionDeltaMove(sol, tempSol->temporarySolution, e, tempSol->temporarySolution[e],
                                                    s);
-                if(!isFeasibleThis(sol,tempSol->temporarySolution,e,s)) flag=1;
                 if (delta < 0 || fate(10000 * p(delta, T))) {
+                    if(!isFeasibleThis(sol,tempSol->temporarySolution,e,s)) flag++;
                     tempSol->temporarySolution[e] = s;
                     if(delta>0) T*=alfa;
-                    printf("\nT:%.4f,%d->%d(%.3f,%.3f,%.3f)", T, e, s, delta,
+                    printf("\nConf:%d/%d T:%.4f,%d->%d(%.3f,%.3f,%.3f)",flag,turn, T, e, s, delta,
                            benchmarkSolution(sol, tempSol->temporarySolution), best);
                 }
             }
@@ -54,5 +55,7 @@ void simulateAnnealingSearch(dataStructure * sol,int maxTime){
             }
         }
         findFeasibleSolution(sol,tempSol);
+        flag=0;
     }
+    findFeasibleSolution(sol,tempSol);
 }

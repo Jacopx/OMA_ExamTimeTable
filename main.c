@@ -34,7 +34,9 @@ int main(int argc, char **argv) {
     temp = newTempSol(solution);
     findFeasibleGreedyCi(solution, temp);
     findFeasibleSolution(solution, temp);
+    copyArray(solution->exams,temp->temporarySolution,solution->E);
     print_Sol(argv[1], solution);
+    free(temp);
 
     localSearch(solution, 200);
     print_Sol(argv[1], solution);
