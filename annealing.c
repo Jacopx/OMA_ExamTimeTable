@@ -11,39 +11,48 @@
 #define p(delta,T) (exp(-(delta)/(T)))
 
 
-const float alfa = 0.9 ;
-const float T0 = 1;
-const int L=100000;
+const float alfa = 0.99;
+const float T0 = 100;
+const int L=100;
+
+const int maxTurn=10;
 
 void simulateAnnealingSearch(dataStructure * sol,int maxTime){
-    int i,e,s,startTime;
-    int *tempSol=(int *)malloc(sizeof(int)*sol->E);
+    int i,j,e,s,startTime,turn,flag=0 ;
+    TempSol *tempSol=newTempSol(sol);
     float best= benchmarkSolution(sol,sol->exams);
     float delta,T;
-    for(i=0;i<sol->E;i++){
-        tempSol[i]=sol->exams[i];
+    for(j=0;j<sol->E;j++){
+        tempSol->temporarySolution[j]=sol->exams[j];
     }
     T=T0;
     startTime=time(NULL);
-   for(i=0;time(NULL)-startTime<maxTime && T>0.001;i++){
-        e=random(0,sol->E-1);
-        s=random(1,sol->timeSlots);
-       if(benchmarkSolution(sol,tempSol)<best){
-           for(i=0;i<sol->E;i++){
-               sol->exams[i]=tempSol[i];
-           }
-           best=benchmarkSolution(sol,sol->exams);
-       }
-        if(isFeasibleThis(sol,tempSol,e,s)){
-            delta=benchmarkSolutionDeltaMove(sol,tempSol,e,tempSol[e],s);
-            if(delta < 0 || fate(1000*p(delta,T))){
-                tempSol[e]=s;
-                printf("\nT:%.2f,%d->%d(%.3f,%.3f)",T,e,s,delta,benchmarkSolution(sol,tempSol));
+    for(turn=0;turn<maxTurn;turn++) {
+        for (i = 0; time(NULL) - startTime < maxTime && T > 0.001;) {
+            e = random(0, sol->E - 1);
+            s = random(1, sol->timeSlots);
+            if (benchmarkSolution(sol, tempSol->temporarySolution) < best && isFeasible(sol,tempSol->temporarySolution)) {
+                for (i = 0; i < sol->E; i++) {
+                    sol->exams[i] = tempSol->temporarySolution[i];
+                }
+                best = benchmarkSolution(sol, sol->exams);
+            }
+            if (!flag || isFeasibleThis(sol, tempSol->temporarySolution, e, s)) {
+                i++;
+                delta = benchmarkSolutionDeltaMove(sol, tempSol->temporarySolution, e, tempSol->temporarySolution[e],
+                                                   s);
+                if(!isFeasibleThis(sol,tempSol->temporarySolution,e,s)) flag=1;
+                if (delta < 0 || fate(10000 * p(delta, T))) {
+                    tempSol->temporarySolution[e] = s;
+                    if(delta>0) T*=alfa;
+                    printf("\nT:%.4f,%d->%d(%.3f,%.3f,%.3f)", T, e, s, delta,
+                           benchmarkSolution(sol, tempSol->temporarySolution), best);
+                }
+            }
+            if (i % L == 0) {
+                T *= alfa;
             }
         }
-       if(i%L==0) {
-           T *= alfa;
-       }
-   }
-
+        findFeasibleSolution(sol,tempSol);
+    }
 }

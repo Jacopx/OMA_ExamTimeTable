@@ -10,12 +10,14 @@
 #include "annealing.h"
 #include "local.h"
 #include "utils.h"
+#include "rng.h"
 
 int main(int argc, char **argv) {
     dataStructure *solution = malloc(sizeof(dataStructure));
-    TempSol *temp=NULL;
+    TempSol *temp = NULL;
     static time_t t1, t2;
 
+    randomize();
 
     if (argc == 4) solution->timeLimit = atoi(argv[argc - 1]);
     else solution->timeLimit = 0;
@@ -29,14 +31,19 @@ int main(int argc, char **argv) {
     sortBasedOnEdges(solution);
     read_Stu(argv[1], solution);
 
-    temp=newTempSol(solution);
-    findFeasibleGreedyCi(solution,temp);
-    findFeasibleSolution(solution,temp);
+    temp = newTempSol(solution);
+    findFeasibleGreedyCi(solution, temp);
+    findFeasibleSolution(solution, temp);
     print_Sol(argv[1], solution);
 
-    simulateAnnealingSearch(solution,200);
-    localSearch(solution,1000000);
-    print_Sol(argv[1],solution);
+    localSearch(solution, 200);
+    print_Sol(argv[1], solution);
+
+    while (time(NULL)-t1<180){
+        simulateAnnealingSearch(solution, 100);
+        localSearch(solution, 30);
+        print_Sol(argv[1], solution);
+    }
 
     freeTempSol(temp);
     STfree(solution->tab);

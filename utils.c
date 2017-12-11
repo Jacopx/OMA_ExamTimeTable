@@ -196,13 +196,13 @@ void findFeasibleSolution (dataStructure *solution,TempSol *Tsol) {
     }
 
     // save founded solution
-    copyArray(solution->exams, Tsol->temporarySolution, solution->E);
+    //copyArray(solution->exams, Tsol->temporarySolution, solution->E);
 
     for (i = 0; i < solution->E; ++i) free(backupSolution[i]);
     free(backupSolution);
 
     // free everything
-    freeTempSol(Tsol);
+    //freeTempSol(Tsol);
     freeTabuList(TL);
     freeConflictStructure(cf);
 }
