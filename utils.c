@@ -11,6 +11,7 @@
 #include "utils.h"
 #include "TabuList.h"
 #include "ConflictStructure.h"
+#include <time.h>
 
 
 #define MAX_ITERATION 200
@@ -100,11 +101,11 @@ void freeTempSol (TempSol *ts) {
     free(ts);
 }
 
-void findFeasibleSolution (dataStructure *solution,TempSol *Tsol) {
+void findFeasibleSolution (dataStructure *solution,TempSol *Tsol,int maxTime) {
     int i, c = 1, bestAlternativeIndex, iteration, isLooping, **backupSolution, diff = solution->E, var;
     TabuList *TL;
     ConflictStructure *cf;
-
+    int startTime=time(NULL);
     backupSolution = malloc(solution->E * sizeof(int*));
     for (i = 0; i < solution->E; ++i) backupSolution[i] = malloc(solution->E * sizeof(int));
 
@@ -112,13 +113,14 @@ void findFeasibleSolution (dataStructure *solution,TempSol *Tsol) {
     TL = newTabuList();
     cf = newConflictStructure(solution->E);
 
-    while (Tsol->currentTimeSlot + 1 > solution->timeSlots) { //SEG HERE!!!
+    while (Tsol->currentTimeSlot + 1 > solution->timeSlots) {
         // check feasibility, or find conflicts
         Tsol->tempSolConflicts = 10000;
         Tsol->numConflictBestSolution = 10000;
         iteration = 0;
         isLooping = 0;
         while (Tsol->numConflictBestSolution != 0) {
+	        if(time(NULL)-startTime>=maxTime) return;
             iteration++;
             cf->ConflictArrayLength = 0;
             findConflict(cf, solution, Tsol);

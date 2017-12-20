@@ -10,6 +10,9 @@
 #include "annealing.h"
 #include "local.h"
 #include "rng.h"
+#include "utils.h"
+
+
 
 int main(int argc, char **argv) {
     dataStructure *solution[10];
@@ -20,7 +23,7 @@ int main(int argc, char **argv) {
 
     for(i=0;i<10;i++)
         solution[i]=malloc(sizeof(dataStructure));
-    if (argc == 4) solution[0]->timeLimit = atoi(argv[argc - 1]);
+    if (argc == 3) solution[0]->timeLimit = atoi(argv[argc - 1]);
     else solution[0]->timeLimit = 0;
 
     t1 = time(0);
@@ -34,23 +37,23 @@ int main(int argc, char **argv) {
 
     temp = newTempSol(solution[0]);
     findFeasibleGreedyCi(solution[0], temp);
-    findFeasibleSolution(solution[0], temp);
+    findFeasibleSolution(solution[0], temp,solution[0]->timeLimit-(time(NULL)-t1));
     copyArray(solution[0]->exams,temp->temporarySolution,solution[0]->E);
     print_Sol(argv[1], solution[0]);
 
-    localSearch(solution[0], 200);
 
     /*  Take as input the solution and the max time of execution
      * TODO IMPLEMENT MAX EXECUTION TIME*/
-    localSwap(solution[0], 30);
+    localSwap(solution[0], solution[0]->timeLimit-(time(NULL)-t1));
+	localSearch(solution[0],solution[0]->timeLimit-(time(NULL)-t1));
     print_Sol(argv[1], solution[0]);
 
-    ////choose how to use it
 
-    while (time(NULL)-t1<180){
-        simulateAnnealingSearch(solution[0],0,1);
-	    localSearch(solution[0],30);
-        localSwap(solution[0],30);
+	int round=0;
+    while (time(NULL)-t1<solution[0]->timeLimit){
+        simulateAnnealingSearch(solution[0],round++,solution[0]->timeLimit-(time(NULL)-t1));
+	    localSearch(solution[0],solution[0]->timeLimit-(time(NULL)-t1));
+        localSwap(solution[0],solution[0]->timeLimit-(time(NULL)-t1));
         print_Sol(argv[1], solution[0]);
     }
 
