@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     findFeasibleSolution(solution, temp,solution->timeLimit-(time(NULL)-t1));
     copyArray(solution->exams,temp->temporarySolution,solution->E);
     print_Sol(argv[1], solution);
-
+ 
 
      // Take as input the solution and the max time of execution
 
