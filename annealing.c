@@ -1,6 +1,7 @@
-//
-// Created by munfo on 10/12/2017.
-//
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *          OMA Project of Jacopo Maggio, Stefano Munna, Jacopo Nasi, Andrea Santu and Marco Torlaschi               *
+ *                      Repository available on https://github.com/Jacopx/OMA_ExamTimeTable                          *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "annealing.h"
 #include "rng.h"
@@ -9,12 +10,9 @@
 
 #define p(delta,T) (exp(-(delta)/(T)))
 
-
 const float alfa = 0.99;
 const float T0 = 100;
 const int L=100;
-
-const int maxTurn=100;
 
 void simulateAnnealingSearch(dataStructure * sol,int turn,int maxTime){
     int i,j,e,s,startTime,flag=0 ;
@@ -44,8 +42,10 @@ void simulateAnnealingSearch(dataStructure * sol,int turn,int maxTime){
 				if(!isFeasibleThis(sol,tempSol->temporarySolution,e,s)) flag++;
 				tempSol->temporarySolution[e] = s;
 				if(delta>0) T*=alfa;
+#ifdef VERBOSE_ANNEALING
 				printf("\nConf:%d/%d T:%.4f,%d->%d(%.3f,%.3f,%.3f)",flag,turn, T, e, s, delta,
-				       benchmarkSolution(sol, tempSol->temporarySolution), best);
+					   benchmarkSolution(sol, tempSol->temporarySolution), best);
+#endif
 			}
 		}
 		if (i % L == 0) {

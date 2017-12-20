@@ -292,7 +292,9 @@ int print_Sol(char *filename, dataStructure *solution)
     strcpy(name, filename);
     strcat(name, "_OMAMZ_group03.sol");
 
-    printf("penalty: %f\n", benchmarkSolution(solution,solution->exams));
+#ifdef VERBOSE_PRINT_PENALTY
+    printf("\nPenalty: %f\n", benchmarkSolution(solution,solution->exams));
+#endif
 
     // copy solution into another data structure
     for (i = 0; i < solution->E; ++i) {
@@ -306,13 +308,21 @@ int print_Sol(char *filename, dataStructure *solution)
     if((fp = fopen(name, "w")))
     {
         fprintf(fp, "%s %d", e[0]->Ids, e[0]->num);
-        printf(" solution -> %d", e[0]->num);
-        for (i = 1; i < solution->E; ++i) {
+
+
+
+        for (i = 1; i < solution->E; ++i)
             fprintf(fp, "\n%s %d", e[i]->Ids, e[i]->num);
+
+#ifdef VERBOSE_PRINT_SOL
+        printf("\tSolution -> %d", e[0]->num);
+        for (i = 1; i < solution->E; ++i) {
             printf(" %d", e[i]->num);
         }
         printf("\n");
+#endif
     }
+
 
     for (i = 0; i < solution->E; ++i) free(e[i]);
     free(e);
