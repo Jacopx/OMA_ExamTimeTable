@@ -3,9 +3,6 @@
  *                      Repository available on https://github.com/Jacopx/OMA_ExamTimeTable                          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
-
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "utils.h"
@@ -13,9 +10,7 @@
 #include "ConflictStructure.h"
 #include <time.h>
 
-
 #define MAX_ITERATION 200
-
 
 float benchmarkSolution (dataStructure * solution,int* testSol) {
     int i, j, V = GraphGetV(solution->g), d;
@@ -220,7 +215,6 @@ void findFeasibleSolution (dataStructure *solution,TempSol *Tsol,int maxTime) {
     free(backupSolution);
 
     // free everything
-    //freeTempSol(Tsol);
     freeTabuList(TL);
     freeConflictStructure(cf);
 }

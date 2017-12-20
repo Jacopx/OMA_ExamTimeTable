@@ -10,17 +10,12 @@
 #include "annealing.h"
 #include "local.h"
 #include "rng.h"
-#include "utils.h"
-
-
 
 int main(int argc, char **argv) {
     dataStructure *solution;
     TempSol *temp = NULL;
     static time_t t1, t2;
-    int i;
     randomize();
-
 
     solution=malloc(sizeof(dataStructure));
     if (argc == 4) solution->timeLimit = atoi(argv[argc - 1]);
@@ -41,14 +36,11 @@ int main(int argc, char **argv) {
     copyArray(solution->exams,temp->temporarySolution,solution->E);
     print_Sol(argv[1], solution);
 
-
-     // Take as input the solution and the max time of execution
-
+    // Take as input the solution and the max time of execution
 	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
     localSwap(solution, solution->timeLimit-(time(NULL)-t1));
 	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
     print_Sol(argv[1], solution);
-
 
 	int round=0;
     while (time(NULL)-t1<solution->timeLimit){

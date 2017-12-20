@@ -3,8 +3,6 @@
 *                      Repository available on https://github.com/Jacopx/OMA_ExamTimeTable                          *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "TabuList.h"

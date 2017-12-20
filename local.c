@@ -1,6 +1,7 @@
-//
-// Created by munfo on 10/12/2017.
-//
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *          OMA Project of Jacopo Maggio, Stefano Munna, Jacopo Nasi, Andrea Santu and Marco Torlaschi               *
+ *                      Repository available on https://github.com/Jacopx/OMA_ExamTimeTable                          *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -8,7 +9,6 @@
 #include <time.h>
 
 const float minimiumDelta = 0.00001;
-
 
 void localSearch(dataStructure *sol, int maxTime) {
     int e,s,startTime;
@@ -125,7 +125,7 @@ void localSwap(dataStructure* solution, int maxTime)
     // *At the start of the algorithm oldBenchmark and best benchmark are the same
     // *In this way I recall the function only if i found a new minimum
     oldBenchmark=benchmarkSolution(solution,solution->exams);
-    bestBenchmark=benchmarkSolution(solution,solution->exams);
+    bestBenchmark=oldBenchmark;
     tS=solution->timeSlots;
     for(k=0;k<E;k++)
         best[k]=solution->exams[k];

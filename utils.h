@@ -10,9 +10,6 @@
 #ifndef OMA_EXAMTIMETABLE_UTILS_H
 #define OMA_EXAMTIMETABLE_UTILS_H
 
-
-
-
 typedef struct {
     int *exams;
     int E, timeSlots;
