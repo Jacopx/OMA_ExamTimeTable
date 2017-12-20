@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
 
     /*  Take as input the solution and the max time of execution
      * TODO IMPLEMENT MAX EXECUTION TIME*/
-    localSwap(solution[0], 200);
+    localSwap(solution[0], 30);
     print_Sol(argv[1], solution[0]);
 
     ////choose how to use it
@@ -54,6 +54,7 @@ int main(int argc, char **argv) {
         print_Sol(argv[1], solution[0]);
     }
 
+	print_Sol(argv[1],solution[0]);
     freeTempSol(temp);
     STfree(solution[0]->tab);
     GraphFree(solution[0]->g);

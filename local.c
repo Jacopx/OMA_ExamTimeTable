@@ -121,6 +121,7 @@ void localSwap(dataStructure* solution, int maxTime)
     E=solution->E;
     temp=malloc(E*sizeof(int));
     best=malloc(E*sizeof(int));
+	int startTime=time(NULL);
     // *At the start of the algorithm oldBenchmark and best benchmark are the same
     // *In this way I recall the function only if i found a new minimum
     oldBenchmark=benchmarkSolution(solution,solution->exams);
@@ -133,7 +134,8 @@ void localSwap(dataStructure* solution, int maxTime)
     {
         for (j = i + 1; j <= tS; j++)
         {
-            //reset temp
+            if(time(NULL)-startTime>=maxTime) return;
+	        //reset temp
             for(k=0;k<E;k++)
                 temp[k]=solution->exams[k];
 
@@ -167,8 +169,8 @@ void localSwap(dataStructure* solution, int maxTime)
     printf("\n");
 #endif
     //HERE THE DIFFERENCE BETWEEN 1.1 VERSION
-    localSearch(solution, 30);
+    localSearch(solution, maxTime-(time(NULL)-startTime));
     if(bestBenchmark<oldBenchmark) {
-        localSwap(solution, 30);
+        localSwap(solution,  maxTime-(time(NULL)-startTime));
     }
 }
