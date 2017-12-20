@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include "utils.h"
+#include "verbose.h"
 
 #ifndef OMA_EXAMTIMETABLE_FILEMANAGER_H
 #define OMA_EXAMTIMETABLE_FILEMANAGER_H

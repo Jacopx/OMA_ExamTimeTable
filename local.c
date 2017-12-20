@@ -2,7 +2,8 @@
 // Created by munfo on 10/12/2017.
 //
 
-#include "stdio.h"
+#include <stdlib.h>
+#include <stdio.h>
 #include "local.h"
 #include <time.h>
 
@@ -41,5 +42,133 @@ void localSearch(dataStructure *sol, int maxTime) {
 #endif
         }
         else break;
+    }
+}
+
+/* Can be improved as exhaustive search
+ * It try a swapping between two timeslot. If the swapped solution is better then the original it becomes the best solution
+ * and the algorithm is performed again on it.
+ * PROBLEM: we move on a new solution but we are stacked in a local minimum
+ * TODO IMPLEMENT MAX EXECUTION TIME*/
+
+//AGORITHM 1.1
+//void localSwap(dataStructure* solution, int maxTime){
+/*
+    int i,j,k,E,tS;
+    int *temp,*best;
+    float bestBenchmark,tempBenchmark,oldBenchmark;
+    E=solution->E;
+    temp=malloc(E*sizeof(int));
+    best=malloc(E*sizeof(int));
+    // *At the start of the algorithm oldBenchmark and best benchmark are the same
+    // *In this way I recall the function only if i found a new minimum
+    oldBenchmark=benchmarkSolution(solution,solution->exams);
+    bestBenchmark=benchmarkSolution(solution,solution->exams);
+    tS=solution->timeSlots;
+    for(k=0;k<E;k++)
+        best[k]=solution->exams[k];
+
+    for(i=1;i<tS-1;i++)
+    {
+        for (j = i + 1; j <= tS; j++)
+        {
+            //reset temp
+            for(k=0;k<E;k++)
+                temp[k]=solution->exams[k];
+
+            for (k=0;k<E;k++)
+            {
+                if (temp[k] == i)
+                    temp[k]=j;
+                else
+                if (temp[k] == j)
+                    temp[k]=i;
+            }
+
+            tempBenchmark=benchmarkSolution(solution,temp);
+            if(tempBenchmark<bestBenchmark)
+            {
+                bestBenchmark=tempBenchmark;
+                for(k=0;k<E;k++)
+                {
+                    best[k]=temp[k];
+                    solution->exams[k]=best[k];
+                }
+
+            }
+
+        }
+    }
+#ifdef VERBOSE_SWAP
+    printf("\nNew best Solution: benchmark:%f\nSolution->",bestBenchmark);
+    for(k=0;k<E;k++)
+        printf("%d ",best[k]);
+    printf("\n");
+#endif
+    if(bestBenchmark<oldBenchmark)
+        localSwap(solution,0);
+    else
+        localSearch(solution, 30);
+}
+*/
+
+//ALGORITHM 1.2
+void localSwap(dataStructure* solution, int maxTime)
+{
+    int i,j,k,E,tS;
+    int *temp,*best;
+    float bestBenchmark,tempBenchmark,oldBenchmark;
+    E=solution->E;
+    temp=malloc(E*sizeof(int));
+    best=malloc(E*sizeof(int));
+    // *At the start of the algorithm oldBenchmark and best benchmark are the same
+    // *In this way I recall the function only if i found a new minimum
+    oldBenchmark=benchmarkSolution(solution,solution->exams);
+    bestBenchmark=benchmarkSolution(solution,solution->exams);
+    tS=solution->timeSlots;
+    for(k=0;k<E;k++)
+        best[k]=solution->exams[k];
+
+    for(i=1;i<tS-1;i++)
+    {
+        for (j = i + 1; j <= tS; j++)
+        {
+            //reset temp
+            for(k=0;k<E;k++)
+                temp[k]=solution->exams[k];
+
+            for (k=0;k<E;k++)
+            {
+                if (temp[k] == i)
+                    temp[k]=j;
+                else
+                if (temp[k] == j)
+                    temp[k]=i;
+            }
+
+            tempBenchmark=benchmarkSolution(solution,temp);
+            if(tempBenchmark<bestBenchmark)
+            {
+                bestBenchmark=tempBenchmark;
+                for(k=0;k<E;k++)
+                {
+                    best[k]=temp[k];
+                    solution->exams[k]=best[k];
+                }
+
+            }
+
+        }
+    }
+#ifdef VERBOSE_SWAP
+    printf("\nNew best Solution: benchmark:%f\nSolution->",bestBenchmark);
+    for(k=0;k<E;k++)
+        printf("%d ",best[k]);
+    printf("\n");
+#endif
+    //HERE THE DIFFERENCE BETWEEN 1.1 VERSION
+    localSearch(solution, 30);
+    if(bestBenchmark<oldBenchmark) {
+        localSwap(solution, 0);
     }
 }
