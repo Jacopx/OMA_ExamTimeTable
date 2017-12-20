@@ -86,7 +86,7 @@ void extendSol(dataStructure* sol,TempSol* temp){
 		}
 	}
 	temp->currentTimeSlot=sol->timeSlots+count;
-	temp->numConflictBestSolution=0;
+	temp->numConflictBestSolution=sol->E;
 }
 
 void copyArray (int *s1, const int *s2, int l) {
