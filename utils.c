@@ -55,8 +55,9 @@ int isFeasible(dataStructure * solution,const int *testSol){
 
     for (i = 0; i < V - 1; ++i) {
         for (j = i + 1; j < V; ++j) {
-            if (testSol[i] == -1 || testSol[j] == -1) continue; //for partial solution
+            if(testSol[i] == -1 || testSol[j] == -1) continue; //for partial solution
             if(testSol[i]==testSol[j] && adjM[i][j]>0) return 0;
+            if(testSol[i]>solution->timeSlots) return 0;
         }
     }
 return 1;
@@ -186,7 +187,9 @@ void findFeasibleSolution (dataStructure *solution,TempSol *Tsol,int maxTime) {
         if (Tsol->currentTimeSlot != solution->timeSlots) {
             var = Tsol->currentTimeSlot - c;
             if (var <= 0) {
-                printf("nooo\n");
+#ifdef VERBOSE_TABU
+                printf("Feasible solution not found!\n");
+#endif
                 return;
             }
             if (c != Tsol->currentTimeSlot) {
@@ -251,170 +254,3 @@ void findFeasibleGreedyCi(dataStructure* solution,TempSol *sol){
     }
     sol->currentTimeSlot=solution->timeSlots+more;
 }
-
-//GOOD
-/*void startExact(dataStructure* solution)
-{
-    int i,j,k,l,m,E,tS;
-    int *temp,*best;
-    float bestBenchmark,tempBenchmark;
-    E=solution->E;
-    temp=malloc(E*sizeof(int));
-    best=malloc(E*sizeof(int));
-    bestBenchmark=benchmarkSolution(solution,solution->exams);
-    tS=solution->timeSlots;
-    for(k=0;k<E;k++)
-        best[k]=solution->exams[k];
-
-    for(i=1;i<tS-1;i++)
-    {
-        for (j = i + 1; j <= tS; j++)
-        {
-            //reset temp
-            for(k=0;k<E;k++)
-                temp[k]=solution->exams[k];
-
-            for (k=0;k<E;k++)
-            {
-                if (temp[k] == i)
-                    temp[k]=j;
-                else
-                    if (temp[k] == j)
-                        temp[k]=i;
-            }
-
-            tempBenchmark=benchmarkSolution(solution,temp);
-            if(tempBenchmark<bestBenchmark)
-            {
-                bestBenchmark=tempBenchmark;
-                for(k=0;k<E;k++)
-                    best[k]=temp[k];
-
-            }
-        }
-    }
-
-
-    printf("\nOld best Solution: benchmark:%f\nSolution->",benchmarkSolution(solution,solution->exams));
-    for(k=0;k<E;k++)
-        printf("%d ",solution->exams[k]);
-    printf("\n");
-
-    for(k=0;k<E;k++)
-        solution->exams[k]=best[k];
-
-    printf("\nNew best Solution: benchmark:%f\nSolution->",bestBenchmark);
-    for(k=0;k<E;k++)
-        printf("%d ",best[k]);
-    printf("\n");
-}*/
-
-//BETTER
-/*void startExact(dataStructure* solution)
-{
-    int i,j,k,l,m,E,tS;
-    int *temp,*best;
-    float bestBenchmark,tempBenchmark;
-    E=solution->E;
-    temp=malloc(E*sizeof(int));
-    best=malloc(E*sizeof(int));
-    bestBenchmark=benchmarkSolution(solution,solution->exams);
-    tS=solution->timeSlots;
-    for(k=0;k<E;k++)
-        best[k]=solution->exams[k];
-
-    for(i=1;i<tS-1;i++)
-    {
-        for (j = i + 1; j <= tS; j++)
-        {
-            //reset temp
-            for(k=0;k<E;k++)
-                temp[k]=solution->exams[k];
-
-            for (k=0;k<E;k++)
-            {
-                if (temp[k] == i)
-                    temp[k]=j;
-                else
-                if (temp[k] == j)
-                    temp[k]=i;
-            }
-
-            tempBenchmark=benchmarkSolution(solution,temp);
-            if(tempBenchmark<bestBenchmark)
-            {
-                bestBenchmark=tempBenchmark;
-                for(k=0;k<E;k++)
-                {
-                    best[k]=temp[k];
-                    solution->exams[k]=best[k];
-                }
-            }
-        }
-    }
-
-
-    printf("\nNew best Solution: benchmark:%f\nSolution->",bestBenchmark);
-    for(k=0;k<E;k++)
-        printf("%d ",best[k]);
-    printf("\n");
-}
-*/
-
-
-//to improve
-/*
-void startExact(dataStructure* solution,int* bestSol)
-{
-    int i,j,k,E,tS;
-    int *temp;
-    float bestBenchmark,tempBenchmark,oldBenchmark;
-    E=solution->E;
-    temp=malloc(E*sizeof(int));
-    tS=solution->timeSlots;
-
-    for(i=1;i<tS-1;i++)
-    {
-        for (j = i + 1; j <= tS; j++)
-        {
-            oldBenchmark=benchmarkSolution(solution,solution->exams);
-            bestBenchmark=benchmarkSolution(solution,bestSol);
-            //reset temp
-            for(k=0;k<E;k++)
-                temp[k]=bestSol[k];
-#ifdef VERBOSE_EXACT
-            printf("\nActual benchmark:%f ",bestBenchmark);
-            printf("Previous best benchmark:%f",oldBenchmark);
-#endif
-
-            for (k=0;k<E;k++)
-            {
-                if (temp[k] == i)
-                    temp[k]=j;
-                else
-                if (temp[k] == j)
-                    temp[k]=i;
-            }
-
-            tempBenchmark=benchmarkSolution(solution,temp);
-            if(tempBenchmark<bestBenchmark)
-            {
-                bestBenchmark=tempBenchmark;
-                for(k=0;k<E;k++)
-                {
-                    solution->exams[k]=bestSol[k];
-                    bestSol[k]=temp[k];
-                }
-
-#ifdef VERBOSE_EXACT
-                printf("\nNew best Solution: benchmark:%f\nSolution->",bestBenchmark);
-                for(k=0;k<E;k++)
-                    printf("%d ",bestSol[k]);
-                printf("\n");
-#endif
-                startExact(solution, bestSol);
-            }
-        }
-    }
-}
-*/
