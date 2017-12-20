@@ -4,9 +4,7 @@
 
 #include "annealing.h"
 #include "rng.h"
-#include <malloc.h>
 #include <stdio.h>
-#include "utils.h"
 
 #define p(delta,T) (exp(-(delta)/(T)))
 

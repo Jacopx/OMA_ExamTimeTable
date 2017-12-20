@@ -6,6 +6,7 @@
 #define OMA_EXAMTIMETABLE_RNG_H
 
 #include <time.h>
+#include <stdlib.h>
 
 #define randomize() (srand(time(NULL)))
 #define random( x, y ) ((rand()%((y)-(x)+1))+(x))

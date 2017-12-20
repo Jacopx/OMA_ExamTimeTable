@@ -36,7 +36,6 @@ int main(int argc, char **argv) {
     findFeasibleSolution(solution[0], temp);
     copyArray(solution[0]->exams,temp->temporarySolution,solution[0]->E);
     print_Sol(argv[1], solution[0]);
-    free(temp);
 
     localSearch(solution[0], 200);
 
@@ -60,7 +59,6 @@ int main(int argc, char **argv) {
     STfree(solution[0]->tab);
     GraphFree(solution[0]->g);
     free(solution[0]->exams);
-    //free(solution);
 
     t2 = time(0);
     printf("Finished in %d seconds\n", (int) (t2-t1));
