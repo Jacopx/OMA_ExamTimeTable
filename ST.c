@@ -88,7 +88,7 @@ void freeR(bstlink h, bstlink z) {
     if(h==z) return;
     freeR(h->l, z);
     freeR(h->r, z);
-    free(h->key);
+//    free(h->key);
     free(h);
 }
 
