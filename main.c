@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include "fileManager.h"
 #include <time.h>
+#include "annealing.h"
 #include "local.h"
 #include "rng.h"
 
@@ -45,15 +46,13 @@ int main(int argc, char **argv) {
     print_Sol(argv[1], solution[0]);
 
     ////choose how to use it
-    /*
-    while (time(NULL)-t1<180){
-        simulateAnnealingSearch(solution[0], 10);
 
-        //localSearch(solution[0], 30);
-        //localSwap(solution[0]);
+    while (time(NULL)-t1<180){
+        simulateAnnealingSearch(solution[0],0,1);
+	    localSearch(solution[0],30);
+        localSwap(solution[0],30);
         print_Sol(argv[1], solution[0]);
     }
-    */
 
     freeTempSol(temp);
     STfree(solution[0]->tab);

@@ -169,6 +169,6 @@ void localSwap(dataStructure* solution, int maxTime)
     //HERE THE DIFFERENCE BETWEEN 1.1 VERSION
     localSearch(solution, 30);
     if(bestBenchmark<oldBenchmark) {
-        localSwap(solution, 0);
+        localSwap(solution, 30);
     }
 }
