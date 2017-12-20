@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
 
     for(i=0;i<10;i++)
         solution[i]=malloc(sizeof(dataStructure));
-    if (argc == 3) solution[0]->timeLimit = atoi(argv[argc - 1]);
+    if (argc == 4) solution[0]->timeLimit = atoi(argv[argc - 1]);
     else solution[0]->timeLimit = 0;
 
     t1 = time(0);
@@ -42,8 +42,9 @@ int main(int argc, char **argv) {
     print_Sol(argv[1], solution[0]);
 
 
-    /*  Take as input the solution and the max time of execution
-     * TODO IMPLEMENT MAX EXECUTION TIME*/
+     // Take as input the solution and the max time of execution
+
+	localSearch(solution[0],solution[0]->timeLimit-(time(NULL)-t1));
     localSwap(solution[0], solution[0]->timeLimit-(time(NULL)-t1));
 	localSearch(solution[0],solution[0]->timeLimit-(time(NULL)-t1));
     print_Sol(argv[1], solution[0]);
