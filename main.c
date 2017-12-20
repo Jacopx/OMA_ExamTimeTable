@@ -15,54 +15,54 @@
 
 
 int main(int argc, char **argv) {
-    dataStructure *solution[10];
+    dataStructure *solution;
     TempSol *temp = NULL;
     static time_t t1, t2;
     int i;
     randomize();
 
-    for(i=0;i<10;i++)
-        solution[i]=malloc(sizeof(dataStructure));
-    if (argc == 4) solution[0]->timeLimit = atoi(argv[argc - 1]);
-    else solution[0]->timeLimit = 0;
+
+    solution=malloc(sizeof(dataStructure));
+    if (argc == 4) solution->timeLimit = atoi(argv[argc - 1]);
+    else solution->timeLimit = 0;
 
     t1 = time(0);
 
-    read_Slo(argv[1], solution[0]);
-    read_Exm(argv[1], solution[0]);
-    read_Stu(argv[1], solution[0]);
+    read_Slo(argv[1], solution);
+    read_Exm(argv[1], solution);
+    read_Stu(argv[1], solution);
 
-    sortBasedOnEdges(solution[0]);
-    read_Stu(argv[1], solution[0]);
+    sortBasedOnEdges(solution);
+    read_Stu(argv[1], solution);
 
-    temp = newTempSol(solution[0]);
-    findFeasibleGreedyCi(solution[0], temp);
-    findFeasibleSolution(solution[0], temp,solution[0]->timeLimit-(time(NULL)-t1));
-    copyArray(solution[0]->exams,temp->temporarySolution,solution[0]->E);
-    print_Sol(argv[1], solution[0]);
+    temp = newTempSol(solution);
+    findFeasibleGreedyCi(solution, temp);
+    findFeasibleSolution(solution, temp,solution->timeLimit-(time(NULL)-t1));
+    copyArray(solution->exams,temp->temporarySolution,solution->E);
+    print_Sol(argv[1], solution);
 
 
      // Take as input the solution and the max time of execution
 
-	localSearch(solution[0],solution[0]->timeLimit-(time(NULL)-t1));
-    localSwap(solution[0], solution[0]->timeLimit-(time(NULL)-t1));
-	localSearch(solution[0],solution[0]->timeLimit-(time(NULL)-t1));
-    print_Sol(argv[1], solution[0]);
+	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
+    localSwap(solution, solution->timeLimit-(time(NULL)-t1));
+	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
+    print_Sol(argv[1], solution);
 
 
 	int round=0;
-    while (time(NULL)-t1<solution[0]->timeLimit){
-        simulateAnnealingSearch(solution[0],round++,solution[0]->timeLimit-(time(NULL)-t1));
-	    localSearch(solution[0],solution[0]->timeLimit-(time(NULL)-t1));
-        localSwap(solution[0],solution[0]->timeLimit-(time(NULL)-t1));
-        print_Sol(argv[1], solution[0]);
+    while (time(NULL)-t1<solution->timeLimit){
+        simulateAnnealingSearch(solution,round++,solution->timeLimit-(time(NULL)-t1));
+	    localSearch(solution,solution->timeLimit-(time(NULL)-t1));
+        localSwap(solution,solution->timeLimit-(time(NULL)-t1));
+        print_Sol(argv[1], solution);
     }
 
-	print_Sol(argv[1],solution[0]);
+	print_Sol(argv[1],solution);
     freeTempSol(temp);
-    STfree(solution[0]->tab);
-    GraphFree(solution[0]->g);
-    free(solution[0]->exams);
+    STfree(solution->tab);
+    GraphFree(solution->g);
+    free(solution->exams);
 
     t2 = time(0);
     printf("Finished in %d seconds\n", (int) (t2-t1));
