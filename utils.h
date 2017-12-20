@@ -37,6 +37,7 @@ float benchmarkSolutionDeltaMove(dataStructure *solution,int * testSol,int exam,
 int isFeasible(dataStructure * ,const int *);
 int isFeasibleThis(dataStructure * ,const int *,int exam,int slot);
 void findFeasibleSolution (dataStructure *solution,TempSol *Tsol,int maxTime);
+void extendSol(dataStructure* sol,TempSol*);
 void copyArray (int *s1, const int *s2, int l);
 void findFeasibleGreedyCi(dataStructure *, TempSol *);
 #endif //OMA_EXAMTIMETABLE_UTILS_H

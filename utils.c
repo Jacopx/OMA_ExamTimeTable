@@ -79,6 +79,20 @@ for(i=0;i<solution->E;i++){
 return 1;
 }
 
+void extendSol(dataStructure* sol,TempSol* temp){
+	int i, j, V = GraphGetV(sol->g);
+	int **adjM = GraphGetAdjMatrix(sol->g);
+	int count=0;
+	for (i = 0; i < V - 1; ++i) {
+		for (j = i + 1; j < V; ++j) {
+			if(temp->temporarySolution[i]==temp->temporarySolution[j] && adjM[i][j]>0){
+				temp->temporarySolution[i]=sol->timeSlots+count++;
+			}
+		}
+	}
+	temp->currentTimeSlot=sol->timeSlots+count;
+}
+
 void copyArray (int *s1, const int *s2, int l) {
     int i;
     for (i = 0; i < l; ++i) s1[i] = s2[i];
