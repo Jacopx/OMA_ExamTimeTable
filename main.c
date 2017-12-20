@@ -13,9 +13,9 @@
 
 int main(int argc, char **argv) {
     dataStructure *solution;
-    TempSol *temp = NULL;
     static time_t t1, t2;
     randomize();
+    char *instanceName = argv[1];
 
     solution=malloc(sizeof(dataStructure));
     if (argc == 4) solution->timeLimit = atoi(argv[argc - 1]);
@@ -23,40 +23,40 @@ int main(int argc, char **argv) {
 
     t1 = time(0);
 
-    read_Slo(argv[1], solution);
-    read_Exm(argv[1], solution);
-    read_Stu(argv[1], solution);
+    read_Slo(instanceName, solution);
+    read_Exm(instanceName, solution);
+    read_Stu(instanceName, solution);
 
     sortBasedOnEdges(solution);
-    read_Stu(argv[1], solution);
+    read_Stu(instanceName, solution);
 
-    temp = newTempSol(solution);
+    TempSol *temp = newTempSol(solution);
     findFeasibleGreedyCi(solution, temp);
     findFeasibleSolution(solution, temp,solution->timeLimit-(time(NULL)-t1));
     copyArray(solution->exams,temp->temporarySolution,solution->E);
-    print_Sol(argv[1], solution);
+    print_Sol(instanceName, solution);
 
     // Take as input the solution and the max time of execution
 	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
     localSwap(solution, solution->timeLimit-(time(NULL)-t1));
 	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
-    print_Sol(argv[1], solution);
+    print_Sol(instanceName, solution);
 
 	int round=0;
     while (time(NULL)-t1<solution->timeLimit){
         simulateAnnealingSearch(solution,round++,solution->timeLimit-(time(NULL)-t1));
 	    localSearch(solution,solution->timeLimit-(time(NULL)-t1));
         localSwap(solution,solution->timeLimit-(time(NULL)-t1));
-        print_Sol(argv[1], solution);
+        print_Sol(instanceName, solution);
     }
 
-	print_Sol(argv[1],solution);
+	print_Sol(instanceName,solution);
     freeTempSol(temp);
     STfree(solution->tab);
     GraphFree(solution->g);
     free(solution->exams);
 
     t2 = time(0);
-    printf("Finished in %d seconds\n", (int) (t2-t1));
+    printf("\nFinished in %d seconds", (int) (t2-t1));
     return 0;
 }

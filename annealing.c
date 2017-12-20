@@ -42,8 +42,10 @@ void simulateAnnealingSearch(dataStructure * sol,int turn,int maxTime){
 				if(!isFeasibleThis(sol,tempSol->temporarySolution,e,s)) flag++;
 				tempSol->temporarySolution[e] = s;
 				if(delta>0) T*=alfa;
+#ifdef VERBOSE_ANNEALING
 				printf("\nConf:%d/%d T:%.4f,%d->%d(%.3f,%.3f,%.3f)",flag,turn, T, e, s, delta,
-				       benchmarkSolution(sol, tempSol->temporarySolution), best);
+					   benchmarkSolution(sol, tempSol->temporarySolution), best);
+#endif
 			}
 		}
 		if (i % L == 0) {
