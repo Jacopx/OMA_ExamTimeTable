@@ -10,6 +10,7 @@
 #include "annealing.h"
 #include "local.h"
 #include "rng.h"
+#include "greedySlots.h"
 
 int main(int argc, char **argv) {
     dataStructure *solution;
@@ -37,6 +38,7 @@ int main(int argc, char **argv) {
     print_Sol(instanceName, solution);
 
     // Take as input the solution and the max time of execution
+	greedySlots(solution,100);
 	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
     localSwap(solution, solution->timeLimit-(time(NULL)-t1));
 	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
@@ -45,6 +47,7 @@ int main(int argc, char **argv) {
 	int round=0;
     while (time(NULL)-t1<solution->timeLimit){
         simulateAnnealingSearch(solution,round++,solution->timeLimit-(time(NULL)-t1));
+	    greedySlots(solution,100);
 	    localSearch(solution,solution->timeLimit-(time(NULL)-t1));
         localSwap(solution,solution->timeLimit-(time(NULL)-t1));
         print_Sol(instanceName, solution);
