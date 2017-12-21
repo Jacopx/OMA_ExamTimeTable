@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
 	int round=0;
     while (time(NULL)-t1<solution->timeLimit){
         simulateAnnealingSearch(solution,round++,solution->timeLimit-(time(NULL)-t1));
-	    greedySlots(solution,100);
+	    greedySlotsShuffle(solution,100);
 	    localSearch(solution,solution->timeLimit-(time(NULL)-t1));
         localSwap(solution,solution->timeLimit-(time(NULL)-t1));
         print_Sol(instanceName, solution);
