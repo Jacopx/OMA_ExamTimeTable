@@ -6,7 +6,7 @@
 //#define VERBOSE_TABU_LIST
 //#define VERBOSE_TABU
 //#define VERBOSE_GREEDY_CI
-//#define VERBOSE_LOCAL
+#define VERBOSE_LOCAL
 //#define VERBOSE_ANNEALING
 //#define VERBOSE_SWAP
 #define VERBOSE_PRINT_SOL

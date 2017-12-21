@@ -38,7 +38,8 @@ int main(int argc, char **argv) {
     print_Sol(instanceName, solution);
 
     // Take as input the solution and the max time of execution
-	greedySlotsOrdered(solution, 100);
+	greedySlots(solution,solution->timeLimit-(time(NULL)-t1));
+	greedySlotsOrdered(solution, solution->timeLimit-(time(NULL)-t1));
 	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
     localSwap(solution, solution->timeLimit-(time(NULL)-t1));
 	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
@@ -47,7 +48,7 @@ int main(int argc, char **argv) {
 	int round=0;
     while (time(NULL)-t1<solution->timeLimit){
         simulateAnnealingSearch(solution,round++,solution->timeLimit-(time(NULL)-t1));
-	    greedySlotsOrdered(solution, 100);
+	    greedySlotsShuffle(solution, solution->timeLimit-(time(NULL)-t1));
 	    localSearch(solution,solution->timeLimit-(time(NULL)-t1));
         localSwap(solution,solution->timeLimit-(time(NULL)-t1));
         print_Sol(instanceName, solution);

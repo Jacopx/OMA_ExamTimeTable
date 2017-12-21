@@ -10,5 +10,6 @@
 #include "verbose.h"
 
 void localSearch(dataStructure * sol,int maxTime);
+void localSearchTemp(dataStructure * sol,int* temp,int maxTime);
 void localSwap(dataStructure* solution, int maxTime);
 #endif //OMA_EXAMTIMETABLE_LOCAL_H
