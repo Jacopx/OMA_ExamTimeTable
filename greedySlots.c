@@ -11,7 +11,7 @@
 
 
 
-void greedySlots(dataStructure* sol, int maxTime){
+void greedySlots(dataStructure* sol, int maxTime){ //todo This one is broken
 	int* temp=malloc(sizeof(int)*sol->E);
 	int* usedFrom=malloc(sizeof(int)*sol->timeSlots);
 	int* usedTo=malloc(sizeof(int)*sol->timeSlots);
@@ -142,7 +142,7 @@ void greedySlotsShuffle(dataStructure *sol, int maxTime){
 		bestCost=100000000;
 		for(to=1;to<=sol->timeSlots;to++){
 			if(time(NULL)-startTime>=maxTime) return;
-			if(usedTo[to]==1) continue;
+			if(usedTo[to-1]==1) continue;
 			swapSlotsGreedy(sol, temp, best.from, to);
 			currentCost=benchmarkSolution(sol,temp);
 			if(currentCost<bestCost) {
@@ -152,8 +152,8 @@ void greedySlotsShuffle(dataStructure *sol, int maxTime){
 			backtrackGreedyslots(sol,temp,to);
 		}
 		swapSlotsGreedy(sol,temp,best.from,best.to);
-		usedFrom[best.from]=1;
-		usedTo[best.to]=1;
+		usedFrom[best.from-1]=1;
+		usedTo[best.to-1]=1;
 #ifdef VERBOSE_GREEDY_SLOTS
 		printf("\n%d->%d(%.3f)",best.from,best.to,benchmarkSolution(sol,temp));
 #endif

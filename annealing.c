@@ -6,6 +6,7 @@
 #include "annealing.h"
 #include "rng.h"
 #include "local.h"
+#include "utils.h"
 #include <stdio.h>
 
 #define p(delta,T) (exp(-(delta)/(T)))
@@ -54,6 +55,7 @@ void simulateAnnealingSearch(dataStructure * sol,int turn,int maxTime){
 	}
 	extendSol(sol,tempSol);
 	findFeasibleSolution(sol,tempSol,maxTime-(time(NULL)-startTime));
+	localSearchTemp(sol,tempSol->temporarySolution,maxTime-(time(NULL)-startTime));
 	if (benchmarkSolution(sol, tempSol->temporarySolution) < best && isFeasible(sol,tempSol->temporarySolution)) {
 		for (i = 0; i < sol->E; i++) {
 			sol->exams[i] = tempSol->temporarySolution[i];

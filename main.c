@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     print_Sol(instanceName, solution);
 
     // Take as input the solution and the max time of execution
-	greedySlots(solution,solution->timeLimit-(time(NULL)-t1));
+	//greedySlots(solution,solution->timeLimit-(time(NULL)-t1)); broken
 	greedySlotsOrdered(solution, solution->timeLimit-(time(NULL)-t1));
 	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
     localSwap(solution, solution->timeLimit-(time(NULL)-t1));
