@@ -25,14 +25,7 @@ void greedySlotsOrdered(dataStructure *sol, int maxTime){
 		usedTo[i]=0;
 		order[i]=i+1;
 	}
-	//shuffle
-/*	for(int cicle=0;cicle<sol->timeSlots*10;cicle++){
-		int a=random(0,sol->timeSlots-1);
-		int b=random(0,sol->timeSlots-1);
-		int t=order[a];
-		order[a]=order[b];
-		order[b]=t;
-	}*/
+
 	int startTime=time(NULL);
 	orderSlots(sol,order);
 	struct {
@@ -63,6 +56,10 @@ void greedySlotsOrdered(dataStructure *sol, int maxTime){
 #endif
 	}
 	if(benchmarkSolution(sol,temp)<benchmarkSolution(sol,sol->exams) && isFeasible(sol,temp)) copyArray(sol->exams,temp,sol->E);
+	free(temp);
+	free(usedFrom);
+	free(usedTo);
+	free(order);
 }
 void greedySlotsShuffle(dataStructure *sol, int maxTime){
 	int* temp=malloc(sizeof(int)*sol->E);
@@ -115,6 +112,11 @@ void greedySlotsShuffle(dataStructure *sol, int maxTime){
 	}
 	localSearchTemp(sol,temp,maxTime-(time(NULL)-startTime));
 	if(benchmarkSolution(sol,temp)<benchmarkSolution(sol,sol->exams) && isFeasible(sol,temp)) copyArray(sol->exams,temp,sol->E);
+	free(temp);
+	free(usedFrom);
+	free(usedTo);
+	free(order);
+
 }
 void swapSlotsGreedy(const dataStructure *sol, int *temp, int from, int to) {
 	for(int k=0; k < sol->E; k++){
