@@ -7,7 +7,6 @@
 
 #include "utils.h"
 
-void greedySlots(dataStructure* sol,int maxTime);
 void greedySlotsOrdered(dataStructure *sol, int maxTime);
 void greedySlotsShuffle(dataStructure *sol, int maxTime);
 void swapSlotsGreedy(const dataStructure *sol,int *temp, int from, int to);
