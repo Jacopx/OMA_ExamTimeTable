@@ -212,8 +212,6 @@ void findFeasibleSolution (dataStructure *solution,TempSol *Tsol,int maxTime) {
         TL->iteration = 7;
     }
 
-    // save founded solution
-    //copyArray(solution->exams, Tsol->temporarySolution, solution->E);
 
     for (i = 0; i < solution->E; ++i) free(backupSolution[i]);
     free(backupSolution);

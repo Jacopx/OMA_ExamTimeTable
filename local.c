@@ -46,6 +46,40 @@ void localSearch(dataStructure *sol, int maxTime) {
         else break;
     }
 }
+void localSearchTemp(dataStructure *sol,int* temp, int maxTime) {
+    int e,s,startTime;
+    float delta;
+    struct {
+        int exam;
+        int slot;
+        float delta;
+    }best;
+    startTime=time(NULL);
+    while(time(NULL)-startTime<maxTime){
+        best.exam=-1;
+        best.slot=-1;
+        best.delta=100000000000;
+        for(e=0;e<sol->E;e++){
+            for(s=1;s<=sol->timeSlots;s++){
+                if(isFeasibleThis(sol,temp,e,s)){
+                    delta=benchmarkSolutionDeltaMove(sol,temp,e,temp[e],s);
+                    if(delta<best.delta){
+                        best.exam=e;
+                        best.slot=s;
+                        best.delta=delta;
+                    }
+                }
+            }
+        }
+        if(best.delta<-minimiumDelta){
+            temp[best.exam]=best.slot;
+#ifdef VERBOSE_LOCAL
+            printf("\nT%d->%d (%.3f,%.3f)",best.exam,best.slot,best.delta,benchmarkSolution(sol,temp));
+#endif
+        }
+        else break;
+    }
+}
 
 /* Can be improved as exhaustive search
  * It try a swapping between two timeslot. If the swapped solution is better then the original it becomes the best solution
