@@ -46,6 +46,7 @@ void localSearch(dataStructure *sol, int maxTime) {
         else break;
     }
 	localSearch2Temp(sol,sol->exams,maxTime-(time(NULL)-startTime));
+	localSearchSlideTemp(sol,sol->exams,maxTime-(time(NULL)-startTime));
 }
 void localSearchTemp(dataStructure *sol,int* temp, int maxTime) {
     int e,s,startTime;
@@ -81,20 +82,23 @@ void localSearchTemp(dataStructure *sol,int* temp, int maxTime) {
         else break;
     }
 	localSearch2Temp(sol,temp,maxTime-(time(NULL)-startTime));
+	localSearchSlideTemp(sol,temp,maxTime-(time(NULL)-startTime));
 }
 void swapExam(int *sol,int a,int b){
     int temp=sol[a];
     sol[a]=sol[b];
     sol[b]=temp;
 }
-void swapExam3(int *sol,int a,int b, int c){
-    int t1=sol[a];
-    int t2=sol[b];
-    int t3=sol[c];
-	sol[a]=t2;
-	sol[b]=t3;
-	sol[c]=t1;
+void slideSlot(dataStructure* sol,int *temp,int from,int to) {
+	for(int i=0;i<sol->E;i++){
+		if(temp[i]>=from && temp[i]<=to){
+			temp[i] = temp[i] + 1;
+			if(temp[i]>to) temp[i]=from;
+		}
+
+	}
 }
+
 void localSearch2Temp(dataStructure *sol,int* temp, int maxTime) {
     int e1,e2,startTime;
     float cost;
@@ -129,7 +133,43 @@ void localSearch2Temp(dataStructure *sol,int* temp, int maxTime) {
         else break;
     }
 }
-
+void localSearchSlideTemp(dataStructure *sol,int* temp, int maxTime) {
+    int from,to,startTime;
+	int *t =malloc(sizeof(int)*sol->E);
+    float cost;
+    struct {
+        int from;
+        int to;
+        float cost;
+    }best;
+    startTime=time(NULL);
+    while(time(NULL)-startTime<maxTime){
+        best.from=-1;
+        best.to =-1;
+        best.cost=100000000000;
+        for(from=1;from<sol->timeSlots;from++){
+            for(to=from+1;to<=sol->timeSlots;to++) {
+	            copyArray(t,temp,sol->E);
+	            slideSlot(sol,t,from,to);
+                if (isFeasible(sol, t)) {
+	                cost=benchmarkSolution(sol,t);
+                    if (cost < best.cost) {
+                        best.from = from;
+                        best.to = to;
+                        best.cost = cost;
+                    }
+                }
+            }
+        }
+        if(benchmarkSolution(sol,temp)-best.cost>minimiumDelta){
+            slideSlot(sol,temp,best.from,best.to);
+#ifdef VERBOSE_LOCAL
+            printf("\nT%d-%d (%.3f,%.3f)",best.from,best.to,best.cost,benchmarkSolution(sol,temp));
+#endif
+        }
+        else break;
+    }
+}
 /* Can be improved as exhaustive search
  * It try a swapping between two timeslot. If the swapped solution is better then the original it becomes the best solution
  * and the algorithm is performed again on it.

@@ -40,7 +40,6 @@ int main(int argc, char **argv) {
 
     // Take as input the solution and the max time of execution
     localSwap(solution, solution->timeLimit-(time(NULL)-t1));
-	printf("\n%d\n",isFeasible(solution,solution->exams));
 							//greedySlotsOrdered(solution,solution->timeLimit-(time(NULL)-t1)); TODO broken
 	print_Sol(instanceName, solution);
 	printf("At %d seconds",(int)time(NULL)-t1);
