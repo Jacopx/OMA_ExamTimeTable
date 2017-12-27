@@ -35,6 +35,7 @@ float benchmarkSolutionSwap(dataStructure* solution,int *testSol,int e1, int e2)
 int isFeasible(dataStructure * ,const int *);
 int isFeasibleThis(dataStructure * ,const int *,int exam,int slot);
 int isFeasibleSwap(dataStructure * ,const int *,int e1,int e2);
+int isFeasibleSwap3(dataStructure * solution,const int * temp,int e1,int e2, int e3);
 void findFeasibleSolution (dataStructure *solution,TempSol *Tsol,int maxTime);
 void extendSol(dataStructure* sol,TempSol*);
 void copyArray (int *s1, const int *s2, int l);

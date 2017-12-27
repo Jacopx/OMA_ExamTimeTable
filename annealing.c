@@ -13,7 +13,7 @@
 
 const float alfa = 0.9;
 const float T0 = 1000;
-const int L=100;
+const int L=10;
 
 void simulateAnnealingSearch(dataStructure * sol,int turn,int maxTime){
     int i,j,e,s,startTime,flag=0 ;
@@ -55,7 +55,8 @@ void simulateAnnealingSearch(dataStructure * sol,int turn,int maxTime){
 	}
 	extendSol(sol,tempSol);
 	findFeasibleSolution(sol,tempSol,maxTime-(time(NULL)-startTime));
-	if(arrayEquals(tempSol->temporarySolution,sol->exams,sol->E)) return;
+	if(arrayEquals(tempSol->temporarySolution,sol->exams,sol->E) || !isFeasible(sol,tempSol->temporarySolution)) return;
+	localSwapTemp(sol,tempSol->temporarySolution,maxTime-(time(NULL)-startTime));
 	localSearchTemp(sol,tempSol->temporarySolution,maxTime-(time(NULL)-startTime));
 	if (benchmarkSolution(sol, tempSol->temporarySolution) < best && isFeasible(sol,tempSol->temporarySolution)) {
 		for (i = 0; i < sol->E; i++) {
@@ -103,7 +104,8 @@ void simulateAnnealingSearch2(dataStructure * sol,int turn,int maxTime){
 	}
 	extendSol(sol,tempSol);
 	findFeasibleSolution(sol,tempSol,maxTime-(time(NULL)-startTime));
-	if(arrayEquals(tempSol->temporarySolution,sol->exams,sol->E)) return;
+	if(arrayEquals(tempSol->temporarySolution,sol->exams,sol->E) || !isFeasible(sol,tempSol->temporarySolution)) return;
+	localSwapTemp(sol,tempSol->temporarySolution,maxTime-(time(NULL)-startTime));
 	localSearchTemp(sol,tempSol->temporarySolution,maxTime-(time(NULL)-startTime));
 	if (benchmarkSolution(sol, tempSol->temporarySolution) < best && isFeasible(sol,tempSol->temporarySolution)) {
 		for (i = 0; i < sol->E; i++) {

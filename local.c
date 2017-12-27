@@ -87,6 +87,14 @@ void swapExam(int *sol,int a,int b){
     sol[a]=sol[b];
     sol[b]=temp;
 }
+void swapExam3(int *sol,int a,int b, int c){
+    int t1=sol[a];
+    int t2=sol[b];
+    int t3=sol[c];
+	sol[a]=t2;
+	sol[b]=t3;
+	sol[c]=t1;
+}
 void localSearch2Temp(dataStructure *sol,int* temp, int maxTime) {
     int e1,e2,startTime;
     float cost;
@@ -129,8 +137,7 @@ void localSearch2Temp(dataStructure *sol,int* temp, int maxTime) {
  * TODO IMPLEMENT MAX EXECUTION TIME*/
 
 //AGORITHM 1.1
-void localSwap(dataStructure* solution, int maxTime)
-{
+void localSwap(dataStructure* solution, int maxTime) {
     int i,j,k,E,tS;
     int *temp,*best;
     float bestBenchmark,tempBenchmark,oldBenchmark;
@@ -191,6 +198,68 @@ void localSwap(dataStructure* solution, int maxTime)
         localSwap(solution, maxTime-(time(NULL)-startTime));
     else
         localSearch(solution, maxTime-(time(NULL)-startTime));
+}
+
+void localSwapTemp(dataStructure* solution,int *tempSol, int maxTime) {
+    int i,j,k,E,tS;
+    int *temp,*best;
+    float bestBenchmark,tempBenchmark,oldBenchmark;
+    E=solution->E;
+    temp=malloc(E*sizeof(int));
+    best=malloc(E*sizeof(int));
+    int startTime=time(NULL);
+    // *At the start of the algorithm oldBenchmark and best benchmark are the same
+    // *In this way I recall the function only if i found a new minimum
+    oldBenchmark=benchmarkSolution(solution,solution->exams);
+    bestBenchmark=benchmarkSolution(solution,solution->exams);
+    tS=solution->timeSlots;
+    for(k=0;k<E;k++)
+        best[k]=tempSol[k];
+
+    for(i=1;i<tS-1;i++)
+    {
+        for (j = i + 1; j <= tS; j++)
+        {
+            if(time(NULL)-startTime>=maxTime) return;
+            //reset temp
+            for(k=0;k<E;k++)
+                temp[k]=tempSol[k];
+
+            for (k=0;k<E;k++)
+            {
+                if (temp[k] == i)
+                    temp[k]=j;
+                else
+                if (temp[k] == j)
+                    temp[k]=i;
+            }
+            tempBenchmark=benchmarkSolution(solution,temp);
+            if(tempBenchmark<bestBenchmark)
+            {
+                bestBenchmark=tempBenchmark;
+                for(k=0;k<E;k++)
+                {
+                    best[k]=temp[k];
+                }
+                #ifdef VERBOSE_SWAP
+                    printf("\nTempNew best Solution: benchmark:%f\nSolution->",bestBenchmark);
+                    for(k=0;k<E;k++)
+                        printf("%d ",best[k]);
+                    printf("\n");
+                #endif
+            }
+
+        }
+    }
+
+    for(k=0;k<E;k++)
+    {
+        tempSol[k]=best[k];
+    }
+    if(bestBenchmark<oldBenchmark)
+        localSwapTemp(solution,tempSol, maxTime-(time(NULL)-startTime));
+    else
+        localSearchTemp(solution,tempSol,maxTime-(time(NULL)-startTime));
 }
 
 
