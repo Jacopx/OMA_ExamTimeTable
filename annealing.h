@@ -10,5 +10,6 @@
 #include "utils.h"
 
 void simulateAnnealingSearch(dataStructure * sol,int maxConficts,int maxTime);
+void simulateAnnealingSearch2(dataStructure * sol,int maxConficts,int maxTime);
 
 #endif //OMA_EXAMTIMETABLE_ANNEALING_H
