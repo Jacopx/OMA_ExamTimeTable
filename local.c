@@ -81,8 +81,12 @@ void localSearchTemp(dataStructure *sol,int* temp, int maxTime) {
         }
         else break;
     }
+	float old=benchmarkSolution(sol,temp);
 	localSearch2Temp(sol,temp,maxTime-(time(NULL)-startTime));
 	localSearchSlideTemp(sol,temp,maxTime-(time(NULL)-startTime));
+	if(old-benchmarkSolution(sol,temp)>minimiumDelta){
+		localSearchTemp(sol,temp,time(NULL)-startTime);
+	}
 }
 void swapExam(int *sol,int a,int b){
     int temp=sol[a];
