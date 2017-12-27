@@ -27,7 +27,7 @@ TabuList* newTabuList () {
 
 void freeTabuList (TabuList *tl) {
     int i;
-    for (i = 0; i < 2 * ITER; ++i) free(tl->list[i]);
+    for (i = 0; i < TABU_LIST_SIZE; ++i) free(tl->list[i]);
     free(tl);
 }
 
@@ -63,7 +63,6 @@ void addTabu (TabuList *TL, TempSol *Tsol, const int *alternative) {
 
 int isTabu (TabuList *TL, TempSol *Tsol, const int *alternative, dataStructure *solution) {
     int i, e1 = -1, e2 = -1, exam = -1;
-    // @TODO pass directly the exams that we want to swap
 
     for (i = 0; i < solution->E; ++i) {
         if (Tsol->temporarySolution[i] != alternative[i]) {
