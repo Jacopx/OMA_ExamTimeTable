@@ -42,7 +42,8 @@ int main(int argc, char **argv) {
 	//------>1//localSearch(solution,solution->timeLimit-(time(NULL)-t1));
     localSwap(solution, solution->timeLimit-(time(NULL)-t1));
 	//greedySlotsOrdered(solution,solution->timeLimit-(time(NULL)-t1)); TODO broken
-	localSearch2Temp(solution,solution->exams,solution->timeLimit-(time(NULL)-t1));
+	print_Sol(instanceName, solution);
+	printf("At %d seconds",(int)time(NULL)-t1);
 	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
     print_Sol(instanceName, solution);
     printf("At %d seconds",(int)time(NULL)-t1);

@@ -102,19 +102,17 @@ void localSearch2Temp(dataStructure *sol,int* temp, int maxTime) {
         best.cost=100000000000;
         for(e1=0;e1<sol->E;e1++){
             for(e2=0;e2<e1;e2++) {
-                swapExam(temp, e1, e2);
-                if (isFeasible(sol, temp)) {
-                    cost = benchmarkSolution(sol, temp);
+                if (isFeasibleSwap(sol, temp,e1,e2)) {
+	                cost=benchmarkSolutionSwap(sol,temp,e1,e2);
                     if (cost < best.cost) {
                         best.exam1 = e1;
                         best.exam2 = e2;
                         best.cost = cost;
                     }
                 }
-                swapExam(temp,e1,e2);
             }
         }
-        if(benchmarkSolution(sol,temp)-best.cost>minimiumDelta){
+        if(best.cost<-minimiumDelta){
             swapExam(temp,best.exam1,best.exam2);
 #ifdef VERBOSE_LOCAL
             printf("\nT%d<->%d (%.3f,%.3f)",best.exam1,best.exam2,best.cost,benchmarkSolution(sol,temp));
