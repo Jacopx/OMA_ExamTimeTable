@@ -147,6 +147,11 @@ void copyArray (int *s1, const int *s2, int l) {
     for (i = 0; i < l; ++i) s1[i] = s2[i];
 }
 
+int arrayEquals (const int *s1, const int *s2,int l) {
+    for (int i = 0; i < l; ++i) if(s1[i] != s2[i]) return 0;
+	return 1;
+}
+
 TempSol* newTempSol (dataStructure* sol) {
     int i;
     TempSol *ts = malloc(sizeof(TempSol));

@@ -38,5 +38,6 @@ int isFeasibleSwap(dataStructure * ,const int *,int e1,int e2);
 void findFeasibleSolution (dataStructure *solution,TempSol *Tsol,int maxTime);
 void extendSol(dataStructure* sol,TempSol*);
 void copyArray (int *s1, const int *s2, int l);
+int arrayEquals (const int *s1, const int *s2,int l);
 void findFeasibleGreedyCi(dataStructure *, TempSol *);
 #endif //OMA_EXAMTIMETABLE_UTILS_H
