@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
     printf("At %d seconds",(int)time(NULL)-t1);
 	int round=0;
     while (time(NULL)-t1<solution->timeLimit){
-        simulateAnnealingSearch(solution,round++,solution->timeLimit-(time(NULL)-t1));
+        simulateAnnealingSearch(solution,round++/10,solution->timeLimit-(time(NULL)-t1));
 	    print_Sol(instanceName, solution);
 	    printf("At %d seconds",(int)time(NULL)-t1);
         simulateAnnealingSearch2(solution,round++,solution->timeLimit-(time(NULL)-t1));

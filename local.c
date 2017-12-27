@@ -89,11 +89,11 @@ void swapExam(int *sol,int a,int b){
     sol[a]=sol[b];
     sol[b]=temp;
 }
-void slideSlot(dataStructure* sol,int *temp,int from,int to) {
+void slideSlot(dataStructure* sol,int *temp,int from,int to, int pos) {
 	for(int i=0;i<sol->E;i++){
 		if(temp[i]>=from && temp[i]<=to){
-			temp[i] = temp[i] + 1;
-			if(temp[i]>to) temp[i]=from;
+			temp[i] = temp[i] + pos;
+			if(temp[i]>to) temp[i]=from+temp[i]-to-1;
 		}
 
 	}
@@ -140,31 +140,36 @@ void localSearchSlideTemp(dataStructure *sol,int* temp, int maxTime) {
     struct {
         int from;
         int to;
+	    int shift;
         float cost;
     }best;
     startTime=time(NULL);
     while(time(NULL)-startTime<maxTime){
         best.from=-1;
         best.to =-1;
+	    best.shift=-1;
         best.cost=100000000000;
         for(from=1;from<sol->timeSlots;from++){
             for(to=from+1;to<=sol->timeSlots;to++) {
-	            copyArray(t,temp,sol->E);
-	            slideSlot(sol,t,from,to);
-                if (isFeasible(sol, t)) {
-	                cost=benchmarkSolution(sol,t);
-                    if (cost < best.cost) {
-                        best.from = from;
-                        best.to = to;
-                        best.cost = cost;
-                    }
-                }
+	            for (int shift = 1; shift < to - from; shift++) {
+		            copyArray(t, temp, sol->E);
+		            slideSlot(sol, t, from, to, shift);
+		            if (isFeasible(sol, t)) {
+			            cost = benchmarkSolution(sol, t);
+			            if (cost < best.cost) {
+				            best.from = from;
+				            best.to = to;
+				            best.shift=shift;
+				            best.cost = cost;
+			            }
+		            }
+	            }
             }
         }
         if(benchmarkSolution(sol,temp)-best.cost>minimiumDelta){
-            slideSlot(sol,temp,best.from,best.to);
+            slideSlot(sol,temp,best.from,best.to,best.shift);
 #ifdef VERBOSE_LOCAL
-            printf("\nT%d-%d (%.3f,%.3f)",best.from,best.to,best.cost,benchmarkSolution(sol,temp));
+            printf("\nT%d-%d>>%d (%.3f,%.3f)",best.from,best.to,best.shift,best.cost,benchmarkSolution(sol,temp));
 #endif
         }
         else break;
