@@ -11,6 +11,7 @@
 #include "local.h"
 #include "rng.h"
 #include "utils.h"
+#include "greedySlots.h"
 
 int main(int argc, char **argv) {
     dataStructure *solution;
@@ -40,6 +41,8 @@ int main(int argc, char **argv) {
     // Take as input the solution and the max time of execution
 	//------>1//localSearch(solution,solution->timeLimit-(time(NULL)-t1));
     localSwap(solution, solution->timeLimit-(time(NULL)-t1));
+	//greedySlotsOrdered(solution,solution->timeLimit-(time(NULL)-t1)); TODO broken
+	localSearch2Temp(solution,solution->exams,solution->timeLimit-(time(NULL)-t1));
 	localSearch(solution,solution->timeLimit-(time(NULL)-t1));
     print_Sol(instanceName, solution);
     printf("At %d seconds",(int)time(NULL)-t1);
@@ -47,6 +50,7 @@ int main(int argc, char **argv) {
     while (time(NULL)-t1<solution->timeLimit){
         simulateAnnealingSearch(solution,round++,solution->timeLimit-(time(NULL)-t1));
 	    //localSearch(solution,solution->timeLimit-(time(NULL)-t1));
+        greedySlotsShuffle(solution,solution->timeLimit-(time(NULL)-t1));
         localSwap(solution, solution->timeLimit-(time(NULL)-t1));
         localSearch(solution,solution->timeLimit-(time(NULL)-t1));
         print_Sol(instanceName, solution);

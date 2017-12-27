@@ -11,8 +11,8 @@
 
 #define p(delta,T) (exp(-(delta)/(T)))
 
-const float alfa = 0.99;
-const float T0 = 100;
+const float alfa = 0.9;
+const float T0 = 1000;
 const int L=100;
 
 void simulateAnnealingSearch(dataStructure * sol,int turn,int maxTime){
@@ -42,7 +42,7 @@ void simulateAnnealingSearch(dataStructure * sol,int turn,int maxTime){
 			if (delta < 0 || fate(10000 * p(delta, T))) {
 				if(!isFeasibleThis(sol,tempSol->temporarySolution,e,s)) flag++;
 				tempSol->temporarySolution[e] = s;
-				if(delta>0) T*=alfa;
+				//if(delta>0) T*=alfa;
 #ifdef VERBOSE_ANNEALING
 				printf("\nConf:%d/%d T:%.4f,%d->%d(%.3f,%.3f,%.3f)",flag,turn, T, e, s, delta,
 					   benchmarkSolution(sol, tempSol->temporarySolution), best);

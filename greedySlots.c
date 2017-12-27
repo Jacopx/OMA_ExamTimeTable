@@ -57,7 +57,7 @@ void greedySlotsOrdered(dataStructure *sol, int maxTime){
 	}
 	if(benchmarkSolution(sol,temp)<benchmarkSolution(sol,sol->exams) && isFeasible(sol,temp)) copyArray(sol->exams,temp,sol->E);
 	free(temp);
-	free(usedFrom);
+//	free(usedFrom);
 	free(usedTo);
 	free(order);
 }
@@ -113,7 +113,7 @@ void greedySlotsShuffle(dataStructure *sol, int maxTime){
 	localSearchTemp(sol,temp,maxTime-(time(NULL)-startTime));
 	if(benchmarkSolution(sol,temp)<benchmarkSolution(sol,sol->exams) && isFeasible(sol,temp)) copyArray(sol->exams,temp,sol->E);
 	free(temp);
-	free(usedFrom);
+	//free(usedFrom);
 	free(usedTo);
 	free(order);
 

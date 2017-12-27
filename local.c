@@ -45,6 +45,7 @@ void localSearch(dataStructure *sol, int maxTime) {
         }
         else break;
     }
+	localSearch2Temp(sol,sol->exams,maxTime-(time(NULL)-startTime));
 }
 void localSearchTemp(dataStructure *sol,int* temp, int maxTime) {
     int e,s,startTime;
@@ -75,6 +76,48 @@ void localSearchTemp(dataStructure *sol,int* temp, int maxTime) {
             temp[best.exam]=best.slot;
 #ifdef VERBOSE_LOCAL
             printf("\nT%d->%d (%.3f,%.3f)",best.exam,best.slot,best.delta,benchmarkSolution(sol,temp));
+#endif
+        }
+        else break;
+    }
+	localSearch2Temp(sol,temp,maxTime-(time(NULL)-startTime));
+}
+void swapExam(int *sol,int a,int b){
+    int temp=sol[a];
+    sol[a]=sol[b];
+    sol[b]=temp;
+}
+void localSearch2Temp(dataStructure *sol,int* temp, int maxTime) {
+    int e1,e2,startTime;
+    float cost;
+    struct {
+        int exam1;
+        int exam2;
+        float cost;
+    }best;
+    startTime=time(NULL);
+    while(time(NULL)-startTime<maxTime){
+        best.exam1=-1;
+        best.exam2=-1;
+        best.cost=100000000000;
+        for(e1=0;e1<sol->E;e1++){
+            for(e2=0;e2<e1;e2++) {
+                swapExam(temp, e1, e2);
+                if (isFeasible(sol, temp)) {
+                    cost = benchmarkSolution(sol, temp);
+                    if (cost < best.cost) {
+                        best.exam1 = e1;
+                        best.exam2 = e2;
+                        best.cost = cost;
+                    }
+                }
+                swapExam(temp,e1,e2);
+            }
+        }
+        if(benchmarkSolution(sol,temp)-best.cost>minimiumDelta){
+            swapExam(temp,best.exam1,best.exam2);
+#ifdef VERBOSE_LOCAL
+            printf("\nT%d<->%d (%.3f,%.3f)",best.exam1,best.exam2,best.cost,benchmarkSolution(sol,temp));
 #endif
         }
         else break;
