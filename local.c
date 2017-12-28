@@ -15,18 +15,19 @@ void localSearch(dataStructure *sol, int maxTime) {
 	localSearchTemp(sol,sol->exams,maxTime);
 }
 
-void localSearchTemp(dataStructure* sol, int *temp,int maxTime){ //TODO non funziona
+void localSearchTemp(dataStructure* sol, int *temp,int maxTime){
 	float old;
 	int startTime=time(NULL);
 	do{
 		old=benchmarkSolution(sol,temp);
+		localSwapTemp(sol,temp,maxTime-(time(NULL)-startTime));
 		localSearch1Temp(sol,temp,maxTime-(time(NULL)-startTime));
 		localSearch2Temp(sol,temp,maxTime-(time(NULL)-startTime));
 		localSearchSlideTemp(sol,temp,maxTime-(time(NULL)-startTime));
 	}while(old-benchmarkSolution(sol,temp)>minimiumDelta && maxTime-(time(NULL)-startTime)>0);
 }
 
-void localSearch1Temp(dataStructure *sol,int* temp, int maxTime) {//TODO adress stackoverflow
+void localSearch1Temp(dataStructure *sol,int* temp, int maxTime) {
     int e,s,startTime;
     float delta;
     struct {
@@ -232,8 +233,8 @@ void localSwapTemp(dataStructure* solution,int *tempSol, int maxTime) {
     int startTime=time(NULL);
     // *At the start of the algorithm oldBenchmark and best benchmark are the same
     // *In this way I recall the function only if i found a new minimum
-    oldBenchmark=benchmarkSolution(solution,solution->exams);
-    bestBenchmark=benchmarkSolution(solution,solution->exams);
+    oldBenchmark=benchmarkSolution(solution,tempSol);
+    bestBenchmark=benchmarkSolution(solution,tempSol);
     tS=solution->timeSlots;
     for(k=0;k<E;k++)
         best[k]=tempSol[k];
@@ -278,10 +279,9 @@ void localSwapTemp(dataStructure* solution,int *tempSol, int maxTime) {
     {
         tempSol[k]=best[k];
     }
-    if(bestBenchmark<oldBenchmark)
+    if(oldBenchmark-bestBenchmark>minimiumDelta)
         localSwapTemp(solution,tempSol, maxTime-(time(NULL)-startTime));
-    else
-        localSearchTemp(solution,tempSol,maxTime-(time(NULL)-startTime));
+    else return;
 }
 
 
