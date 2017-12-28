@@ -9,12 +9,24 @@
 #include "utils.h"
 #include <time.h>
 
-const float minimiumDelta = 0.000001;
+const float minimiumDelta = 0.00001; //Ocio che meno di così si pianta
 
 void localSearch(dataStructure *sol, int maxTime) {
 	localSearchTemp(sol,sol->exams,maxTime);
 }
-void localSearchTemp(dataStructure *sol,int* temp, int maxTime) {
+
+void localSearchTemp(dataStructure* sol, int *temp,int maxTime){ //TODO non funziona
+	float old;
+	int startTime=time(NULL);
+	do{
+		old=benchmarkSolution(sol,temp);
+		localSearch1Temp(sol,temp,maxTime-(time(NULL)-startTime));
+		localSearch2Temp(sol,temp,maxTime-(time(NULL)-startTime));
+		localSearchSlideTemp(sol,temp,maxTime-(time(NULL)-startTime));
+	}while(old-benchmarkSolution(sol,temp)>minimiumDelta && maxTime-(time(NULL)-startTime)>0);
+}
+
+void localSearch1Temp(dataStructure *sol,int* temp, int maxTime) {//TODO adress stackoverflow
     int e,s,startTime;
     float delta;
     struct {
@@ -48,11 +60,6 @@ void localSearchTemp(dataStructure *sol,int* temp, int maxTime) {
         else break;
     }
 	float old=benchmarkSolution(sol,temp);
-	localSearch2Temp(sol,temp,maxTime-(time(NULL)-startTime));
-	localSearchSlideTemp(sol,temp,maxTime-(time(NULL)-startTime));
-	if(old-benchmarkSolution(sol,temp)>minimiumDelta){
-		localSearchTemp(sol,temp,maxTime-(time(NULL)-startTime));
-	}
 }
 void swapExam(int *sol,int a,int b){
     int temp=sol[a];

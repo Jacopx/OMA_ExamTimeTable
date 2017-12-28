@@ -65,6 +65,7 @@ void simulateAnnealingSearch(dataStructure * sol,int turn,int maxTime){
 	}
 }
 
+
 void simulateAnnealingSearch2(dataStructure * sol,int turn,int maxTime){
     int i,j,e1,e2,startTime,flag=0 ;
     TempSol *tempSol=newTempSol(sol);
@@ -102,6 +103,7 @@ void simulateAnnealingSearch2(dataStructure * sol,int turn,int maxTime){
 			T *= alfa;
 		}
 	}
+
 	extendSol(sol,tempSol);
 	findFeasibleSolution(sol,tempSol,maxTime-(time(NULL)-startTime));
 	if(arrayEquals(tempSol->temporarySolution,sol->exams,sol->E) || !isFeasible(sol,tempSol->temporarySolution)) return;

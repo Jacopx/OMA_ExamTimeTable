@@ -11,6 +11,7 @@
 
 void localSearch(dataStructure * sol,int maxTime);
 void localSearchTemp(dataStructure * sol,int* temp,int maxTime);
+void localSearch1Temp(dataStructure * sol,int* temp,int maxTime);
 void localSearch2Temp(dataStructure * sol,int* temp,int maxTime);
 void localSearchSlideTemp(dataStructure *sol,int* temp, int maxTime);
 void localSwap(dataStructure* solution, int maxTime);
