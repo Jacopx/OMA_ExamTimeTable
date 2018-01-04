@@ -49,6 +49,49 @@ float benchmarkSolutionDeltaMove(dataStructure *solution,int * testSol,int exam,
     return (float)penalty / solution->S;
 }
 
+float benchmarkSolutionSwap(dataStructure* solution,int *testSol,int e1, int e2){
+	int oldSlot,newSlot;
+	int i, d, temp;
+	int **adjM = GraphGetAdjMatrix(solution->g);
+	int penalty=0;
+	const int fastPow[6]={32,16,8,4,2,1};
+	oldSlot=testSol[e1];
+	newSlot=testSol[e2];
+	for(i=0;i<solution->E;i++){
+		if(i==e1) continue;
+		d = abs(testSol[i] - oldSlot);
+		if (d<=5 && adjM[i][e1] != 0)
+			penalty -= fastPow[d] * adjM[i][e1];
+	}
+	temp=testSol[e2];
+	testSol[e2]=testSol[e1];
+	for(i=0;i<solution->E;i++){
+		if(i==e1) continue;
+		d = abs(testSol[i] - newSlot);
+		if (d<=5 && adjM[i][e1] != 0)
+			penalty += fastPow[d] * adjM[i][e1];
+	}
+	testSol[e2]=temp;
+	oldSlot=testSol[e2];
+	newSlot=testSol[e1];
+	for(i=0;i<solution->E;i++){
+		if(i==e2) continue;
+		d = abs(testSol[i] - oldSlot);
+		if (d<=5 && adjM[i][e2] != 0)
+			penalty -= fastPow[d] * adjM[i][e2];
+	}
+	temp=testSol[e1];
+	testSol[e1]=testSol[e2];
+	for(i=0;i<solution->E;i++){
+		if(i==e2) continue;
+		d = abs(testSol[i] - newSlot);
+		if (d<=5 && adjM[i][e2] != 0)
+			penalty += fastPow[d] * adjM[i][e2];
+	}
+	testSol[e1]=temp;
+	return (float)penalty / solution->S;
+}
+
 int isFeasible(dataStructure * solution,const int *testSol){
     int i, j, V = GraphGetV(solution->g);
     int **adjM = GraphGetAdjMatrix(solution->g);
@@ -75,6 +118,15 @@ for(i=0;i<solution->E;i++){
 return 1;
 }
 
+int isFeasibleSwap(dataStructure * solution,const int * temp,int e1,int e2){
+    int **adjM = GraphGetAdjMatrix(solution->g);
+    for(int i=0;i<solution->E;i++){
+        if(i!=e2 && temp[e2]==temp[i] && adjM[e1][i]!=0) return 0;
+        if(i!=e1 && temp[e1]==temp[i] && adjM[e2][i]!=0) return 0;
+    }
+    return 1;
+}
+
 void extendSol(dataStructure* sol,TempSol* temp){
 	int i, j, V = GraphGetV(sol->g);
 	int **adjM = GraphGetAdjMatrix(sol->g);
@@ -93,6 +145,11 @@ void extendSol(dataStructure* sol,TempSol* temp){
 void copyArray (int *s1, const int *s2, int l) {
     int i;
     for (i = 0; i < l; ++i) s1[i] = s2[i];
+}
+
+int arrayEquals (const int *s1, const int *s2,int l) {
+    for (int i = 0; i < l; ++i) if(s1[i] != s2[i]) return 0;
+	return 1;
 }
 
 TempSol* newTempSol (dataStructure* sol) {
