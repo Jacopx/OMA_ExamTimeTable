@@ -130,6 +130,8 @@ void localSearchSlideTemp(dataStructure *sol,int* temp, int maxTime) {
         for(from=1;from<sol->timeSlots;from++){
             for(to=from+1;to<=sol->timeSlots;to++) {
 	            for (int shift = 1; shift < to - from; shift++) {
+		            if(time(NULL)-startTime>=maxTime)
+			            return;
 		            copyArray(t, temp, sol->E);
 		            slideSlot(sol, t, from, to, shift);
 		            if (isFeasible(sol, t)) {
