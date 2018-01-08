@@ -20,6 +20,9 @@ The objective is to minimize the total penalty resulting from the created timeta
 ## Mathematical model
 The model is described in a `OMA_ETT-Model.pdf` document stored in the Latex folder of the project.
 
+## Project Report
+The final report of the project is on a file named `ETPreport_OMAMZ_group03.pdf` in the report folder.
+
 ## Required tasks
 * Provide a Linear Programming formulation for the ETP (deadline 1).
 * Propose a solution approach for the ETP by exploiting one (or more) heuristic and meta-heuristic algorithms presented during the course.
