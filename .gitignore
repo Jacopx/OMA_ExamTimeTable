@@ -2,6 +2,8 @@
 .idea
 cmake-build-debug
 
+!BestSolution/*.sol
+
 # LaTeX
 *.aux
 *.fdb_latexmk

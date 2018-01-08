@@ -29,14 +29,41 @@
 
 % Model pages
 \section{Report}
-This document provides some explenation about our solution to the problem proposed.
+This document provides some explenation about our solution to the problem proposed. The project is developed with C with support of CLion (JetBrains IDE) and GitHub.
 
 \subsection{Data Structure}
+The main structure is a graph, build on a adjacency matrix. This matrix have value:
+\begin{equation}
+  \begin{gathered}
+    adjM_{e1,e2} = \begin{cases} 1 \rightarrow $ \textit{If \textbf{e1} and \textbf{e2}} can't be sustained in the same ts$ \\ -1 \rightarrow Otherwise \end{cases}
+  \end{gathered}
+\end{equation}
+The choice over this structure is related to its ease, it allows a fast reading of the instances, also the benchmark and feasability become easy to check.
 
 \subsection{Workflow}
-% Feasible
+The first problem to be solved is to finding a \textbf{feasible} solution to be used for the future improvement.\\
+Our solution, is divided in two parts, a greedy data preparation and a tabu search. Using only the tabu, that will work anyway, will require too much time for finding the first feasible solution.\\
+\paragraph{Greedy} The first phase try do generate a feasible solution adding one at the time the exam. The idea is to reduce "the complexity" of the problem. It start from a sorted data, from the exam with more collision to the fewer ones. The flow is the following:
+\begin{enumerate}
+  \item Use the first available timeslots that not generate conflicts for each exams.
+  \item If there aren't enough timeslots it will add a new timeslot.
+\end{enumerate}
+Of course adding more timeslots not fit the problem constraints. These adding will be solved with the next step. The advantages of these implementations are the reduction of computational time and the easiness to implement it.
 
-% Improve
+\paragraph{Tabu Search} The goal of the second step is to reduce the number of added, by the previous step, timeslots
+to the correct number, generating a feasible solution. The workflow is:
+\begin{enumerate}
+  \item Decrease the number of timeslots.
+  \item Try to resolve the conflict.
+  \begin{itemize}
+    \item If not: Backtrack.
+    \item If yes: Restart from point 1.
+  \end{itemize}
+\end{enumerate}
+Using the tabu search is a really reliable, the main problem is its slowness that is partially solved by the greedy step.\\
+
+The next step try to improve our founded solution by using some meta-heuristic algorithms.
+
 
 \subsection{Execution}
 
