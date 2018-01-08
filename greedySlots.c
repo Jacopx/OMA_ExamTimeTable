@@ -4,7 +4,7 @@
 
 #include "greedySlots.h"
 #include "utils.h"
-#include <malloc.h>
+//#include <malloc.h>
 #include <stdio.h>
 #include "rng.h"
 #include "local.h"
