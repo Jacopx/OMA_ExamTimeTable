@@ -62,10 +62,32 @@ to the correct number, generating a feasible solution. The workflow is:
 \end{enumerate}
 Using the tabu search is a really reliable, the main problem is its slowness that is partially solved by the greedy step.\\
 
-The next step try to improve our founded solution by using some meta-heuristic algorithms.
+The next step try to improve our founded solution by using some heuristic/meta-heuristic algorithms.\\
+These step implement four different procedures: \textit{Local Search, Local Swap, Simulated Annealing and Greedy Slot Shuffle}.\\
 
+The \textbf{Local Search} is divided in three different algorithms:
+\begin{itemize}
+  \item \textbf{Move Exam}: Change the timeslot of en exam.
+  \item \textbf{Swap Exam}: Swap the timeslot of two exams.
+  \item \textbf{Bounded Shift}: Shift a portion of timeslots.
+\end{itemize}
 
-\subsection{Execution}
+The \textbf{Local Swap} implements a steepest descent strategy and it evaluate the Neighborhood \textit{N(x)} of the current optimal solution \textit{x}. The flow:
+\begin{enumerate}
+  \item Switches exams scheduled in a timeslot with those contained in any another to find a new feasible \textit{x'}.
+  \item If \textit{x'} has a better benchmark than that of x, then \textit{x=x'}.
+  \item Loop until no improvement.
+\end{enumerate}
+We have choose the ST strategy respect the first improvement due to its efficiency, despite its slower speed. All the local search and the local swap strategies are applied in loop until the solution is improving.\\
 
+Our implementation of the \textbf{Simulated Annealing} is not different from the studied one. After some tuning we have used a starting temperature of 1000, that decrease of alfa = 0.9 every L = 10 iterations. After the temperature reduction the feasability is restored using the tabu search and the minimum is searched using the local search.\\
+Applying these algorithm, due to its randomness, could give different (even worst between different running) results.\\
 
+The last implemented function is the \textbf{Greedy Slot Shuffle}, its a really simple algorithm that, starting from a feasible, add, one at a time a new timeslot evaluating the benchmark. Of course applying these flow not require to restore the feasability because is always guarantee by starting from and already feasible solution.
+
+\subsection{Other Solution}
+Another tried, but not implemented algorithm is the \textbf{genetic}. We have choose to not used it because it seems that not fit very well our problem. Due to its randomness the majority of generated solutions are unfeasbile.
+
+%\subsection{Execution}
+%\subsection{Conclusion}
 \end{document}
